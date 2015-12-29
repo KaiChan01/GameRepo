@@ -10,7 +10,7 @@ class Star extends GameObject
   {
     super(x, y);
     //Make this relevate to screen size
-    this.radius = random(2, 5);
+    this.radius = random((size/5)*2, size);
     this.colour = color(random(10,200));
     this.alive = true;
   }

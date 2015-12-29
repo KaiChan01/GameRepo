@@ -11,6 +11,12 @@ ArrayList<GameObject> Objects = new ArrayList<GameObject>();
 
 int newStars;
 boolean start;
+boolean animation;
+
+//used in relation to screen size
+float size;
+
+boolean[] input = new boolean[512];
 
 // Making the background first
 boolean sketchFullScreen()
@@ -24,6 +30,10 @@ void setup()
   background(0);
   spaceFont = createFont("airstrike.ttf", width/20);
   start = false;
+  animation = false;
+  
+  //size is equal to 5
+  size = height / 216;
   
   //Making initial Stars
   for(int i = 0; i < 100; i++)
@@ -33,7 +43,7 @@ void setup()
   }
   
   //Making player test
-  Player one = new Player(width/2,height,'w','s','a','d','j','k','l');
+  GameObject one = new Player(width/2,height+(30*size),'W','S','A','D','J','K','L');
   Objects.add(one);
 }
 
@@ -74,6 +84,12 @@ void draw()
       ObjectsMethods.drawObject();
       ObjectsMethods.move();
       ObjectsMethods.die();
+      
+      if((Objects.get(i)) instanceof Player)
+      {
+        Player a = (Player) Objects.get(i);
+        a.startAnimation();
+      }
     }
   }
 }
@@ -97,6 +113,7 @@ void menu()
     if(mousePressed == true)
     {
       start = true;
+      animation= true;
     }
   }
     text("Start", width/2, 9*(height/10));
@@ -104,4 +121,10 @@ void menu()
 
 void keyPressed()
 {
+  input[keyCode] = true;
+}
+
+void keyReleased()
+{
+  input[keyCode] = false;
 }

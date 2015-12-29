@@ -24,7 +24,7 @@ class Star extends GameObject
   
   void move()
   {
-    position.add(down);
+    position.add(MoveDOWN);
   }
   
   void die()

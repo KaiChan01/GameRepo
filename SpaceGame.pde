@@ -33,7 +33,7 @@ void setup()
   }
   
   //Making player test
-  Player one = new Player(width/2,height/2,'w','s','a','d','j','k','l');
+  Player one = new Player(width/2,height,'w','s','a','d','j','k','l');
   Objects.add(one);
 }
 

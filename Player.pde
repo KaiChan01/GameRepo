@@ -9,6 +9,7 @@ class Player extends GameObject
   char shoot; 
   char bomb; 
   char drop;
+  float startY;
   
   Player()
   {
@@ -20,6 +21,8 @@ class Player extends GameObject
     super(newX, newY);
     
     //Read in again at some point
+    this.startY = newY;
+    
     this.up = up;
     this.down = down;
     this.left = left;
@@ -44,8 +47,8 @@ class Player extends GameObject
     rect(-60,20,-15,70);
     rect(-5,50,10,10);
     
-    fill(240);
-    stroke(240);
+    fill(150,0,0);
+    stroke(150,0,0);
     beginShape();
     //Right side of ship
     vertex(0,-20);
@@ -77,8 +80,8 @@ class Player extends GameObject
     vertex(-10,-15);
     endShape();
     
-    fill(255,100,0);
-    ellipse(0,0,10,20);
+    fill(100,100,255);
+    ellipse(0,0,15,50);
     popMatrix();
   }
   
@@ -88,7 +91,13 @@ class Player extends GameObject
   
   void move()
   {
-    
+    if(start == true && position.y > height-(height/4))
+    {
+      for(int i = 0; i < startY/1000; i++)
+      {
+        position.add(MoveUP);
+      }
+    }
   }
   
   void die()

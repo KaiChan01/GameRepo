@@ -7,6 +7,7 @@
 PFont spaceFont;
 
 ArrayList<Star> stars = new ArrayList<Star>();
+ArrayList<GameObject> Objects = new ArrayList<GameObject>();
 
 int newStars;
 boolean start;
@@ -30,6 +31,10 @@ void setup()
     Star star = new Star((random(0,width)), (random(0,height)));
     stars.add(star);
   }
+  
+  //Making player
+  Player one = new Player(width/2,height/2);
+  Objects.add(one);
 }
 
 void draw()
@@ -53,11 +58,23 @@ void draw()
      stars.add(star);
   }
   
+  //Moving other objects
   
   
   if(start == false)
   {
     menu();
+  }
+  else
+  {
+    for(int i = 0; i < Objects.size(); i++)
+    {
+      GameObject ObjectsMethods = Objects.get(i);
+    
+      ObjectsMethods.drawObject();
+      ObjectsMethods.move();
+      ObjectsMethods.die();
+    }
   }
 }
 

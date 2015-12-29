@@ -8,8 +8,7 @@ class Star extends GameObject
   
   Star(float x, float y)
   {
-    position.x = x;
-    position.y = y;
+    super(x, y);
     //Make this relevate to screen size
     this.radius = random(2, 5);
     this.colour = color(random(10,200));

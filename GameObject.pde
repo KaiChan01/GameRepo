@@ -2,7 +2,6 @@ abstract class GameObject
 {
   
   float health;
-  int ammo;
   int lives;
   
   PVector position;

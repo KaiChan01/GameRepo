@@ -32,8 +32,8 @@ void setup()
     stars.add(star);
   }
   
-  //Making player
-  Player one = new Player(width/2,height/2);
+  //Making player test
+  Player one = new Player(width/2,height/2,'w','s','a','d','j','k','l');
   Objects.add(one);
 }
 
@@ -100,4 +100,8 @@ void menu()
     }
   }
     text("Start", width/2, 9*(height/10));
+}
+
+void keyPressed()
+{
 }

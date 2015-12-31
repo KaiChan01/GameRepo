@@ -10,10 +10,10 @@ class Player extends GameObject
   char bomb; 
   char drop;
   float startY;
+  int weaponType;
   
   Player()
   {
-    super(width/2, height/2);
   }
   
   Player(float newX, float newY, char upKey, char downKey, char leftKey, char rightKey, char shootKey, char bombKey, char dropKey)
@@ -22,7 +22,7 @@ class Player extends GameObject
     
     //Read in again at some point
     this.startY = newY;
-    
+    this.weaponType = 0;
     this.up = upKey;
     this.down = downKey;
     this.left = leftKey;
@@ -33,7 +33,7 @@ class Player extends GameObject
     this.health = 100;
     this.lives = 3;
     this.bombs = 3;
-    this.speed = size;
+    this.speed = 2*size;
   }
   
   void drawObject()
@@ -88,10 +88,6 @@ class Player extends GameObject
     fill(100,100,255);
     ellipse(0,0,3*size,10*size);
     popMatrix();
-  }
-  
-  void guns()
-  {
   }
   
   void move()
@@ -155,10 +151,8 @@ class Player extends GameObject
   {
     if(start == true)
     {
-      println(animation);
       if(position.y > height-(height/4) && animation == true)
       {
-        println("yay");
         for(int i = 0; i < startY/1000; i++)
         {
           position.add(MoveUP);
@@ -171,6 +165,26 @@ class Player extends GameObject
       animation = false;
     }
   }
+  
+  void guns()
+  {
+    Defaultweapon defaultweapon = new Defaultweapon(position.x, position.y, shoot);
+    
+    defaultweapon.drawWeapon();
+    
+    if(start == true && animation == false)
+    {
+      defaultweapon.shoot();
+    }
+  }
+  
+  /*void weapon()
+  {
+    if(weaponType = 0)
+    {
+      weapon = new Weapon()
+    }
+  }*/
   
   void die()
   {

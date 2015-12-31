@@ -88,7 +88,11 @@ void draw()
       if((Objects.get(i)) instanceof Player)
       {
         Player a = (Player) Objects.get(i);
-        a.startAnimation();
+        a.guns();
+        if(animation == true)
+        {
+          a.startAnimation();
+        };
       }
     }
   }

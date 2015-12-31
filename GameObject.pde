@@ -14,7 +14,6 @@ abstract class GameObject
 
   GameObject()
   {
-    //Need to make use of this
     this(width/2, height/2);
   }
   

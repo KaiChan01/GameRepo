@@ -2,9 +2,9 @@ class Defaultweapon extends Player
 {
   int infinity;
   int ammo;
+  
   float x, y;
   char shootButton;
-  int coolDown;
   
   //shooting reference point
   float gX;
@@ -18,7 +18,6 @@ class Defaultweapon extends Player
     this.shootButton = shoot;
     this.gY = 8*size;
     this.gX = gX;
-    this.coolDown = -1;
   }
   
   void drawWeapon()
@@ -56,21 +55,19 @@ class Defaultweapon extends Player
     popMatrix();
   }
   
-  void shoot()
-  {
-    if(input[shootButton] == true && coolDown < 0)
+  int shoot(int cd)
+  { 
+    if(input[shootButton] == true && cd > 10)
     {
       pushMatrix();
       translate(x,y);
       rect(gX,-gY,10,-height);
       popMatrix();
       
-      coolDown = 1000000000;
-      println("yes");
+      cd = 0;
+      println(cd);
     }
-    
-    coolDown =- 1;
-    println(coolDown);
+    return cd;
   }
   
   void die()

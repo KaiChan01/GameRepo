@@ -92,7 +92,7 @@ void draw()
         if(animation == true)
         {
           a.startAnimation();
-        };
+        }
       }
     }
   }

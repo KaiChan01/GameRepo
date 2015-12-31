@@ -11,6 +11,8 @@ class Player extends GameObject
   char drop;
   float startY;
   int weaponType;
+  int coolDown1;
+  int coolDown2;
   float gun1x;
   float gun2x;
   
@@ -38,6 +40,9 @@ class Player extends GameObject
     this.speed = 2*size;
     this.gun1x = 14*size;
     this.gun2x = -16*size;
+    
+    this.coolDown1 = 10;
+    this.coolDown2 = 10;
   }
   
   void drawObject()
@@ -183,8 +188,14 @@ class Player extends GameObject
     
       if(start == true && animation == false)
       {
-        defaultweapon1.shoot();
-        defaultweapon2.shoot();
+        coolDown1 = defaultweapon1.shoot(coolDown1);
+        coolDown2 = defaultweapon2.shoot(coolDown2);
+      }
+      
+      if(coolDown1 < 11)
+      {
+        coolDown1++;
+        coolDown2++;
       }
     }
     

@@ -11,6 +11,8 @@ class Player extends GameObject
   char drop;
   float startY;
   int weaponType;
+  float gun1x;
+  float gun2x;
   
   Player()
   {
@@ -34,6 +36,8 @@ class Player extends GameObject
     this.lives = 3;
     this.bombs = 3;
     this.speed = 2*size;
+    this.gun1x = 14*size;
+    this.gun2x = -16*size;
   }
   
   void drawObject()
@@ -168,13 +172,24 @@ class Player extends GameObject
   
   void guns()
   {
-    Defaultweapon defaultweapon = new Defaultweapon(position.x, position.y, shoot);
-    
-    defaultweapon.drawWeapon();
-    
-    if(start == true && animation == false)
+    if(weaponType == 0)
     {
-      defaultweapon.shoot();
+      //Draw 2 guns
+      Defaultweapon defaultweapon1 = new Defaultweapon(position.x, position.y, shoot, gun1x);
+      Defaultweapon defaultweapon2 = new Defaultweapon(position.x, position.y, shoot, gun2x);
+    
+      defaultweapon1.drawWeapon();
+      defaultweapon2.drawWeapon();
+    
+      if(start == true && animation == false)
+      {
+        defaultweapon1.shoot();
+        defaultweapon2.shoot();
+      }
+    }
+    
+    if(weaponType == 1)
+    {
     }
   }
   

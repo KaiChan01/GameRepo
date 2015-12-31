@@ -4,30 +4,73 @@ class Defaultweapon extends Player
   int ammo;
   float x, y;
   char shootButton;
+  int coolDown;
   
-  Defaultweapon(float gunX, float gunY, char shoot)
+  //shooting reference point
+  float gX;
+  float gY;
+  
+  Defaultweapon(float gunX, float gunY, char shoot, float gX)
   {
     this.ammo = 9999;
     this.x = gunX;
     this.y = gunY;
     this.shootButton = shoot;
+    this.gY = 8*size;
+    this.gX = gX;
+    this.coolDown = -1;
   }
   
   void drawWeapon()
   {
     //TEST!
-    ellipse(x,y,100,100);
-    println(shootButton);
+    pushMatrix();
+    translate(x,y);
+    fill(100,170,255);
+    beginShape();
+    //Start point
+    vertex(gX,-gY-10);
+    vertex(gX+0,-gY);
+    vertex(gX+10,-gY);
+    vertex(gX+10,-gY-10);
+    vertex(gX+20,-gY+5);
+    vertex(gX+20,-gY+20);
+    vertex(gX+10,-gY+30);
+    
+    //leftside
+    vertex(gX,-gY+30);
+    vertex(gX-10,-gY+20);
+    vertex(gX-10,-gY+5);
+    vertex(gX,-gY-10);
+    vertex(gX,-gY);
+    endShape();
+    
+    fill(0,255,255);
+    beginShape();
+    vertex(gX+5,-30);
+    vertex(gX+10,-25);
+    vertex(gX+5,-20);
+    vertex(gX,-25);
+    vertex(gX+5,-30);
+    endShape();
+    popMatrix();
   }
   
   void shoot()
   {
-    if(input[shootButton] == true)
+    if(input[shootButton] == true && coolDown < 0)
     {
-      println("shooting");
-      fill(255);
-      rect(x-20,y,40,-height);
+      pushMatrix();
+      translate(x,y);
+      rect(gX,-gY,10,-height);
+      popMatrix();
+      
+      coolDown = 1000000000;
+      println("yes");
     }
+    
+    coolDown =- 1;
+    println(coolDown);
   }
   
   void die()

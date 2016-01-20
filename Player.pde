@@ -99,15 +99,17 @@ class Player extends GameObject
     //Cockpit
     fill(100,100,255);
     ellipse(0,0,3*size,10*size);
+    
+    playerPos = position.x ;
     popMatrix();
   }
   
   void move()
   {   
-    MoveUP.mult(speed);
-    MoveDOWN.mult(speed);
-    MoveLEFT.mult(speed);
-    MoveRIGHT.mult(speed);
+    this.MoveUP.mult(speed);
+    this.MoveDOWN.mult(speed);
+    this.MoveLEFT.mult(speed);
+    this.MoveRIGHT.mult(speed);
     
     if(start == true && animation == false)
     {

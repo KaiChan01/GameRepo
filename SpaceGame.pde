@@ -3,8 +3,12 @@
    Date: 26/12/15
 */
 int spawn;
-int tempFrame;
-int CurFrame;
+int spawnNum;
+boolean spawnOne;
+int tempTime;
+int CurTime;
+float playerPos;
+float tempPos;
 
 //Loading some font
 PFont spaceFont;
@@ -28,6 +32,7 @@ void setup()
   spaceFont = createFont("airstrike.ttf", width/20);
   start = false;
   animation = false;
+  spawnOne = false;
   
   //size is equal to 5
   size = (width-height) / 168;
@@ -65,9 +70,7 @@ void draw()
      stars.add(star);
   }
   
-  //Moving other objects
-  
-  
+  //Moving other objects  
   if(start == false)
   {
     menu();
@@ -77,16 +80,29 @@ void draw()
     if(animation == false)
     {
       //Enemies spawn
-      spawn = int(random(0,10));
-      if(spawn == 1)
+      spawn = int(random(0,500));
+      if(spawn == 20 && spawnOne == false)
       {
-        //Need to figure this out
-        tempFrame = frameCount;
-         if(frameCount/tempFrame == 1)
-         {
-           GameObject a = new Enemy(random(100,width-100), 0);
-           Objects.add(a);
-         }
+        tempPos = playerPos;
+        spawnOne = true;
+        spawnNum = 5;
+      }
+      
+      if(spawnOne == true)
+      {
+        println(frameCount);
+        if(frameCount%60 == 0)
+        {
+          GameObject a = new Enemy(tempPos, -50*size);
+          Objects.add(a);
+          spawnNum --;
+          println(frameCount);
+        }
+          
+        if(spawnNum < 1)
+        {
+          spawnOne = false;
+        }
       }
     }
     

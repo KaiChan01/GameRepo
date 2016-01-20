@@ -15,7 +15,8 @@ class Bullet extends GameObject
   void drawObject()
   {
     
-    fill(255,170,100);
+    fill(0,255,0);
+    stroke(0,200,0);
     pushMatrix();
     translate(transX,transY);
     pushMatrix();

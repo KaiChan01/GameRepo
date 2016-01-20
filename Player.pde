@@ -10,7 +10,10 @@ class Player extends GameObject
   char bomb; 
   char drop;
   float startY;
+  
   int weaponType;
+  int ammo;
+  
   int coolDown1;
   int coolDown2;
   float gun1x;
@@ -177,6 +180,7 @@ class Player extends GameObject
   
   void guns()
   {
+    ammo = 0;
     if(weaponType == 0)
     {
       //Draw 2 guns
@@ -203,14 +207,6 @@ class Player extends GameObject
     {
     }
   }
-  
-  /*void weapon()
-  {
-    if(weaponType = 0)
-    {
-      weapon = new Weapon()
-    }
-  }*/
   
   void die()
   {

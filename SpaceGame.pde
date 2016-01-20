@@ -2,6 +2,9 @@
    Author: Ka Yu Chan
    Date: 26/12/15
 */
+int spawn;
+int tempFrame;
+int CurFrame;
 
 //Loading some font
 PFont spaceFont;
@@ -18,22 +21,16 @@ float size;
 
 boolean[] input = new boolean[512];
 
-// Making the background first
-boolean sketchFullScreen()
-{
-  return true;
-}
-
 void setup()
 {
-  size(displayWidth, displayHeight);
+  size(900,510);
   background(0);
   spaceFont = createFont("airstrike.ttf", width/20);
   start = false;
   animation = false;
   
   //size is equal to 5
-  size = height / 216;
+  size = (width-height) / 168;
   
   //Making initial Stars
   for(int i = 0; i < 100; i++)
@@ -61,7 +58,7 @@ void draw()
   }
   
   //Keep drawing stars
-  newStars = int(random(0,10));
+  newStars = int(random(0,6));
   if(newStars == 5)
   {
      Star star = new Star((random(0,width)), 0);
@@ -77,6 +74,22 @@ void draw()
   }
   else
   {
+    if(animation == false)
+    {
+      //Enemies spawn
+      spawn = int(random(0,10));
+      if(spawn == 1)
+      {
+        //Need to figure this out
+        tempFrame = frameCount;
+         if(frameCount/tempFrame == 1)
+         {
+           GameObject a = new Enemy(random(100,width-100), 0);
+           Objects.add(a);
+         }
+      }
+    }
+    
     for(int i = 0; i < Objects.size(); i++)
     {
       GameObject ObjectsMethods = Objects.get(i);
@@ -109,7 +122,7 @@ void menu()
   
   if(  mouseX > width/3 
     && mouseX < width-(width/3) 
-    && mouseY > (8*(height/10)+32) 
+    && mouseY > (7*(height/10)+32) 
     && mouseY < (9*height/10)+32)
   {
     fill(0,255,255);

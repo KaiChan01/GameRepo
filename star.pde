@@ -30,8 +30,8 @@ class Star extends GameObject
   void die()
   {
     if(position.y > height)
-   {
-    stars.remove(this);
-   }
+    {
+      stars.remove(this);
+    }
   }
 }

@@ -29,13 +29,14 @@ void setup()
 {
   size(900,510);
   background(0);
-  spaceFont = createFont("airstrike.ttf", width/20);
-  start = false;
-  animation = false;
-  spawnOne = false;
   
   //size is equal to 5
   size = (width-height) / 168;
+  
+  spaceFont = createFont("airstrike.ttf", width/(10*size));
+  start = false;
+  animation = false;
+  spawnOne = false;
   
   //Making initial Stars
   for(int i = 0; i < 100; i++)
@@ -77,6 +78,8 @@ void draw()
   }
   else
   {
+    playerInfo();
+    
     if(animation == false)
     {
       //Enemies spawn
@@ -90,13 +93,11 @@ void draw()
       
       if(spawnOne == true)
       {
-        println(frameCount);
         if(frameCount%60 == 0)
         {
           GameObject a = new Enemy(tempPos, -50*size);
           Objects.add(a);
           spawnNum --;
-          println(frameCount);
         }
           
         if(spawnNum < 1)
@@ -124,6 +125,9 @@ void draw()
         }
       }
     }
+    
+    playerCollision();
+    
   }
 }
 
@@ -133,6 +137,7 @@ void menu()
   textFont(spaceFont);
   fill(100,100,220);
   stroke(150,150,20);
+  
   //Will change name
   text("SPACE BATTLE",width/2,height/10);
   
@@ -151,6 +156,41 @@ void menu()
   }
     text("Start", width/2, 9*(height/10));
 }
+
+void playerInfo()
+{
+  textAlign(LEFT);
+  fill(204,0,204);
+  stroke(204,0,204);
+  textSize(25);
+  text("Health: ", 5*size,height-(5*size));
+  textAlign(RIGHT);
+  text("Ammo: ",width-(20*size),height-(5*size));
+}
+
+//CAn try to make more accurate
+void playerCollision()
+{
+  for(int i = 0; i < Objects.size(); i++)
+  {
+    GameObject player = Objects.get(i);
+    if(player instanceof Player)
+    {
+      for(int j = 0; i < Objects.size(); i++)
+      {
+        GameObject enemy = Objects.get(i);
+        if(enemy instanceof Enemy)
+        {
+          if(player.position.dist(enemy.position) < (16*size)+25)
+          {
+            println("hit");
+          }
+        }
+      }
+    }
+  }
+}
+      
 
 void keyPressed()
 {

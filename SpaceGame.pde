@@ -6,7 +6,6 @@ int spawn;
 int spawnNum;
 boolean spawnOne;
 int tempTime;
-int CurTime;
 float playerPos;
 float tempPos;
 
@@ -18,6 +17,7 @@ ArrayList<GameObject> Objects = new ArrayList<GameObject>();
 
 int newStars;
 boolean start;
+boolean gameOver;
 boolean animation;
 
 //used in relation to screen size
@@ -35,6 +35,7 @@ void setup()
   
   spaceFont = createFont("airstrike.ttf", width/(10*size));
   start = false;
+  gameOver = false;
   animation = false;
   spawnOne = false;
   
@@ -163,7 +164,7 @@ void playerInfo()
   fill(204,0,204);
   stroke(204,0,204);
   textSize(25);
-  text("Health: ", 5*size,height-(5*size));
+  text("Health: ", 5*size,height-(10*size));
   textAlign(RIGHT);
   text("Ammo: ",width-(20*size),height-(5*size));
 }
@@ -183,7 +184,7 @@ void playerCollision()
         {
           if(player.position.dist(enemy.position) < (16*size)+25)
           {
-            println("hit");
+            ((Collide) enemy).damage((Player)player);
           }
         }
       }

@@ -1,4 +1,4 @@
-class Enemy extends GameObject
+class Enemy extends GameObject implements Collide
 {
   int ammo;
   float startX;
@@ -67,6 +67,15 @@ class Enemy extends GameObject
         MoveRIGHT = new PVector(1, 0);
       }
     } 
+  }
+  
+  void damage(Player player)
+  {
+    if(player.invincFrame == 25)
+    {
+      player.health -= 25;
+      player.invincFrame = 0;
+    }
   }
   
   void die()

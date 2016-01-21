@@ -1,6 +1,6 @@
 class Player extends GameObject
 {
-  //Fields for players
+  //Fields for player
   float bombs;
   char up;
   char down;
@@ -14,6 +14,7 @@ class Player extends GameObject
   int weaponType;
   int ammo;
   
+  int invincFrame;
   int coolDown1;
   int coolDown2;
   float gun1x;
@@ -46,6 +47,8 @@ class Player extends GameObject
     
     this.coolDown1 = 10;
     this.coolDown2 = 10;
+    
+    this.invincFrame = 25;
   }
   
   void drawObject()
@@ -102,6 +105,11 @@ class Player extends GameObject
     
     playerPos = position.x ;
     popMatrix();
+    
+    if(invincFrame < 25)
+    {
+      invincFrame++;
+    }
   }
   
   void move()
@@ -212,5 +220,18 @@ class Player extends GameObject
   
   void die()
   {
+    fill(255);
+    rect(5*size,height-(8*size),health,5*size);
+    if(health == 0)
+    {
+      health = 100;
+      lives -= 1;
+    }
+    
+    if(lives == 0)
+    {
+      Objects.remove(this);
+      gameOver = true;
+    }
   }
 }

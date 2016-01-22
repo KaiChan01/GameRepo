@@ -114,7 +114,6 @@ void draw()
     
       ObjectsMethods.drawObject();
       ObjectsMethods.move();
-      ObjectsMethods.die();
       
       if((Objects.get(i)) instanceof Player)
       {
@@ -125,10 +124,11 @@ void draw()
           a.startAnimation();
         }
       }
+      
+      ObjectsMethods.die();
     }
-    
+    checkBullet();
     playerCollision();
-    
   }
 }
 
@@ -169,6 +169,28 @@ void playerInfo()
   text("Ammo: ",width-(20*size),height-(5*size));
 }
 
+void checkBullet()
+{
+  for(int i = 0; i < Objects.size(); i++)
+  {
+    GameObject enemy = Objects.get(i);
+    if(enemy instanceof Enemy)
+    {
+      for(int j = 0; j < Objects.size(); j++)
+      {
+        GameObject bullet = Objects.get(j);
+        if(bullet instanceof Bullet)
+        {
+          if(enemy.position.dist(bullet.position) < (size)+(25*size/2))
+          {
+            println("Yea");
+          }
+        }
+      }
+    }
+  }
+}
+
 //CAn try to make more accurate
 void playerCollision()
 {
@@ -177,12 +199,12 @@ void playerCollision()
     GameObject player = Objects.get(i);
     if(player instanceof Player)
     {
-      for(int j = 0; i < Objects.size(); i++)
+      for(int j = 0; j < Objects.size(); j++)
       {
-        GameObject enemy = Objects.get(i);
+        GameObject enemy = Objects.get(j);
         if(enemy instanceof Enemy)
         {
-          if(player.position.dist(enemy.position) < (16*size)+25)
+          if(player.position.dist(enemy.position) < (16*size)+(25*size/2))
           {
             ((Collide) enemy).damage((Player)player);
           }

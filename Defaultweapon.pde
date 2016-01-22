@@ -1,4 +1,4 @@
-class Defaultweapon extends Player
+class Defaultweapon extends GameObject
 {
   int infinity;
   
@@ -7,15 +7,16 @@ class Defaultweapon extends Player
   
   Defaultweapon(float gunX, float gunY, char shoot, float gX)
   {
-    this.position.x = gX;
-    this.position.y = 8*size;
+    super(gX,8*size);
+    //this.position.x = gX;
+    //this.position.y = 8*size;
     this.shootButton = shoot;
     
     this.x = gunX;
     this.y = gunY;
   }
   
-  void drawWeapon()
+  void drawObject()
   { 
     //TEST!
     pushMatrix();
@@ -50,6 +51,8 @@ class Defaultweapon extends Player
     endShape();
     
     popMatrix();
+    
+    println(position);
   }
   
   int shoot(int cd)
@@ -71,6 +74,10 @@ class Defaultweapon extends Player
     //popMatrix();
     
     return cd;
+  }
+  
+  void move()
+  {
   }
   
   void die()

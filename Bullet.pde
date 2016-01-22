@@ -5,22 +5,22 @@ class Bullet extends GameObject
   
   Bullet(float x, float y, float posX, float posY)
   {
+    super(posX,posY);
+    
     speed = 4*size;
-    this.position.x = posX;
-    this.position.y = posY;
+    
     this.transX = x;
     this.transY = y;
   }
   
   void drawObject()
   {
-    
     fill(0,255,0);
     stroke(0,200,0);
     pushMatrix();
-    translate(transX,transY);
-    pushMatrix();
     translate(position.x,position.y);
+    pushMatrix();
+    translate(transX,transY);
     rect(0,0,2*size,-10*size);
     popMatrix();
     popMatrix();
@@ -33,7 +33,7 @@ class Bullet extends GameObject
   
   void die()
   {
-    if(position.y > 0)
+    if(this.position.y < -height)
     {
       Objects.remove(this);
     }

@@ -197,8 +197,8 @@ class Player extends GameObject
       Defaultweapon defaultweapon1 = new Defaultweapon(position.x, position.y, shoot, gun1x);
       Defaultweapon defaultweapon2 = new Defaultweapon(position.x, position.y, shoot, gun2x);
     
-      defaultweapon1.drawWeapon();
-      defaultweapon2.drawWeapon();
+      defaultweapon1.drawObject();
+      defaultweapon2.drawObject();
     
       if(start == true && animation == false)
       {

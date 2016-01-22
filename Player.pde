@@ -18,7 +18,6 @@ class Player extends GameObject
   int coolDown1;
   int coolDown2;
   float gun1x;
-  float gun2x;
   
   Player()
   {
@@ -42,8 +41,7 @@ class Player extends GameObject
     this.lives = 3;
     this.bombs = 3;
     this.speed = 2*size;
-    this.gun1x = 14*size;
-    this.gun2x = -16*size;
+    this.gun1x = 15*size;
     
     this.coolDown1 = 10;
     this.coolDown2 = 10;
@@ -195,7 +193,7 @@ class Player extends GameObject
     {
       //Draw 2 guns
       Defaultweapon defaultweapon1 = new Defaultweapon(position.x, position.y, shoot, gun1x);
-      Defaultweapon defaultweapon2 = new Defaultweapon(position.x, position.y, shoot, gun2x);
+      Defaultweapon defaultweapon2 = new Defaultweapon(position.x, position.y, shoot, -gun1x);
     
       defaultweapon1.drawObject();
       defaultweapon2.drawObject();

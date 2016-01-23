@@ -1,7 +1,7 @@
 abstract class GameObject
 {
   
-  float health;
+  int health;
   int lives;
   float speed;
   

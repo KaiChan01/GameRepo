@@ -18,6 +18,7 @@ class Enemy extends GameObject implements Collide
     this.startY=startY;
     this.sway=true;
     this.speed = 1.05;
+    this.health = 100;
   }
   
   void drawObject()
@@ -80,5 +81,9 @@ class Enemy extends GameObject implements Collide
   
   void die()
   {
+    if(health <= 0)
+    {
+      Objects.remove(this);
+    }
   }
 }

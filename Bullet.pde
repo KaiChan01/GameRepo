@@ -1,4 +1,4 @@
-class Bullet extends GameObject
+class Bullet extends GameObject implements BulletHit
 {
   
   Bullet(float x, float y, float posX, float posY)
@@ -21,6 +21,13 @@ class Bullet extends GameObject
     popMatrix();
   }
   
+  void damage(Enemy enemy)
+  {
+    enemy.health -= 25;
+    Objects.remove(this);
+  }
+    
+  
   void move()
   {
     position.add(MoveUP);
@@ -28,7 +35,7 @@ class Bullet extends GameObject
   
   void die()
   {
-    if(this.position.y < -height)
+    if(this.position.y < 0)
     {
       Objects.remove(this);
     }

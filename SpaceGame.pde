@@ -185,7 +185,7 @@ void checkBullet()
         {
           if(enemy.position.dist(bullet.position) < (size)+(25*size/2))
           {
-            println("Yea");
+            ((BulletHit) bullet).damage((Enemy)enemy);
           }
         }
       }

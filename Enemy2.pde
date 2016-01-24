@@ -2,6 +2,7 @@ class Enemy2 extends GameObject implements Collide
 {
   int destX, destY;
   int drops;
+  int ammo;
   
   Enemy2()
   {
@@ -13,7 +14,8 @@ class Enemy2 extends GameObject implements Collide
     this.destX = int(random(0,width));
     this.destY = int(random((50*size),height-(100*size)));
     this.speed = 1.5;
-    this.health = 180;
+    this.health = 150;
+    this.ammo = 6;
     
     this.MoveUP.mult(speed);
     this.MoveDOWN.mult(speed);
@@ -64,7 +66,20 @@ class Enemy2 extends GameObject implements Collide
     else
     {
       position.add(MoveDOWN);
-    } 
+    }
+    
+    if(ammo > 0)
+    {
+      if(frameCount%30 == 0)
+        {
+          for(int i = 1; i < 6; i++)
+          {
+            EnemyBullet c = new EnemyBullet(int(position.x), int(position.y), HALF_PI+i/0.01);
+            Objects.add(c);
+          }
+          ammo --;
+        }
+    }
   }
   
   void apply(Player player)

@@ -5,7 +5,7 @@
 int spawn;
 int spawnNum;
 boolean spawnOne;
-int tempTime;
+
 float playerPos;
 float tempPos;
 
@@ -144,6 +144,7 @@ void draw()
     
     checkBullet();
     LivePower();
+    CheckEnemyBullet();
     playerCollision();
     checkBullet2();
     
@@ -236,7 +237,28 @@ void checkBullet2()
   }
 }
 
-//CAn try to make more accurate
+void CheckEnemyBullet()
+{
+  for(int i = 0; i < Objects.size(); i++)
+  {
+    GameObject player = Objects.get(i);
+    if(player instanceof Player)
+    {
+      for(int j = 0; j < Objects.size(); j++)
+      {
+        GameObject eBullet = Objects.get(j);
+        if(eBullet instanceof EnemyBullet)
+        {
+          if(player.position.dist(eBullet.position) < (16*size)+(5*size/2))
+          {
+            ((EnemyHit) eBullet).hit((Player)player);
+          }
+        }
+      }
+    }
+  }
+}
+
 void playerCollision()
 {
   for(int i = 0; i < Objects.size(); i++)

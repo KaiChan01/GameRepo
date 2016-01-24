@@ -220,7 +220,7 @@ class Player extends GameObject
   {
     fill(255);
     rect(5*size,height-(8*size),health,5*size);
-    if(health == 0)
+    if(health <= 0)
     {
       health = 100;
       lives -= 1;

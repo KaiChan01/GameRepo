@@ -1,4 +1,4 @@
 interface Collide
 {
-  void damage(Player player);
+  void apply(Player player);
 }

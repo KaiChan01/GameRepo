@@ -4,6 +4,7 @@ class Enemy extends GameObject implements Collide
   float startX;
   float startY;
   boolean sway;
+  int drops;
   
   Enemy()
   {
@@ -70,7 +71,7 @@ class Enemy extends GameObject implements Collide
     } 
   }
   
-  void damage(Player player)
+  void apply(Player player)
   {
     if(player.invincFrame == 25)
     {
@@ -83,6 +84,12 @@ class Enemy extends GameObject implements Collide
   {
     if(health <= 0)
     {
+      drops = int(random(0,100));
+      if(drops == 15);
+      {
+        LiveUp drop = new LiveUp(position.x, position.y);
+        Objects.add(drop);
+      }
       Objects.remove(this);
     }
   }

@@ -19,6 +19,7 @@ int newStars;
 boolean start;
 boolean gameOver;
 boolean animation;
+boolean help;
 
 //used in relation to screen size
 float size;
@@ -38,6 +39,7 @@ void setup()
   gameOver = false;
   animation = false;
   spawnOne = false;
+  help = false;
   
   //Making initial Stars
   for(int i = 0; i < 100; i++)
@@ -52,7 +54,7 @@ void setup()
 }
 
 void draw()
-{
+{  
   background(0);
   
   for(int i = 0; i < stars.size(); i++)
@@ -76,6 +78,10 @@ void draw()
   if(start == false)
   {
     menu();
+    if(help == true)
+    {
+      helpMenu();
+    }
   }
   else
   {
@@ -130,7 +136,13 @@ void draw()
     println(Objects.size());
     
     checkBullet();
+    LivePower();
     playerCollision();
+    
+    if(help == true)
+    {
+      helpMenu();
+    }
   }
 }
 
@@ -208,21 +220,58 @@ void playerCollision()
         {
           if(player.position.dist(enemy.position) < (16*size)+(25*size/2))
           {
-            ((Collide) enemy).damage((Player)player);
+            ((Collide) enemy).apply((Player)player);
           }
         }
       }
     }
   }
 }
-      
+
+void LivePower()
+{
+  for(int i = 0; i < Objects.size(); i++)
+  {
+    GameObject player = Objects.get(i);
+    if(player instanceof Player)
+    {
+      for(int j = 0; j < Objects.size(); j++)
+      {
+        GameObject live = Objects.get(j);
+        if(live instanceof LiveUp)
+        {
+          if(player.position.dist(live.position) < (16*size)+(10*size/2))
+          {
+            ((Collide) live).apply((Player)player);
+          }
+        }
+      }
+    }
+  }
+}
+
+void helpMenu()
+{
+  stroke(0,51,102);
+  fill(0);
+  rectMode(CENTER);
+  rect(width/2,height/2,(width/2)-(40*size),(height/2)-(20*size));
+  rectMode(CORNER);
+}
 
 void keyPressed()
 {
   input[keyCode] = true;
+  
+  //tried using input['H'] but it's too fast
+  if(key == 'h')
+  {
+    help = !help;
+  }
 }
 
 void keyReleased()
 {
   input[keyCode] = false;
 }
+

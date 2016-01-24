@@ -255,7 +255,17 @@ void helpMenu()
   stroke(0,51,102);
   fill(0);
   rectMode(CENTER);
-  rect(width/2,height/2,(width/2)-(40*size),(height/2)-(20*size));
+  rect(width/2,height/2,width-80*size,height-40*size);
+  textSize(16*size);
+  fill(0,0,204);
+  textAlign(CENTER);
+  text("CONTROLS AND TIPS",width/2,40*size);
+  textSize(10*size);
+  textAlign(LEFT);
+  text("W - Move up",(50*size),(60*size));
+  text("A - Move left",(50*size),(80*size));
+  text("S - Move Down",(50*size),(100*size));
+  text("D - Move left",(50*size),(120*size));
   rectMode(CORNER);
 }
 

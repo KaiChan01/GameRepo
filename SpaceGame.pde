@@ -97,7 +97,7 @@ void draw()
         spawnOne = true;
         spawnNum = 5;
       }
-      
+   
       if(spawnOne == true)
       {
         if(frameCount%60 == 0)
@@ -111,6 +111,13 @@ void draw()
         {
           spawnOne = false;
         }
+      }
+      
+      //Spawning second type of enemy
+      if(spawn == 50)
+      {
+        GameObject b = new Enemy2(int(random(0,width)), int(-50*size));
+        Objects.add(b);
       }
     }
     
@@ -138,7 +145,9 @@ void draw()
     checkBullet();
     LivePower();
     playerCollision();
+    checkBullet2();
     
+    //Toggle help menu
     if(help == true)
     {
       helpMenu();
@@ -195,9 +204,31 @@ void checkBullet()
         GameObject bullet = Objects.get(j);
         if(bullet instanceof Bullet)
         {
-          if(enemy.position.dist(bullet.position) < (size)+(25*size/2))
+          if(enemy.position.dist(bullet.position) < (size)+(34*size/2))
           {
             ((BulletHit) bullet).damage((Enemy)enemy);
+          }
+        }
+      }
+    }
+  }
+}
+
+void checkBullet2()
+{
+  for(int i = 0; i < Objects.size(); i++)
+  {
+    GameObject enemy = Objects.get(i);
+    if(enemy instanceof Enemy2)
+    {
+      for(int j = 0; j < Objects.size(); j++)
+      {
+        GameObject bullet = Objects.get(j);
+        if(bullet instanceof Bullet)
+        {
+          if(enemy.position.dist(bullet.position) < (size)+(25*size/2))
+          {
+            ((BulletHit2) bullet).damage2((Enemy2)enemy);
           }
         }
       }
@@ -216,7 +247,7 @@ void playerCollision()
       for(int j = 0; j < Objects.size(); j++)
       {
         GameObject enemy = Objects.get(j);
-        if(enemy instanceof Enemy)
+        if(enemy instanceof Enemy || enemy instanceof Enemy2)
         {
           if(player.position.dist(enemy.position) < (16*size)+(25*size/2))
           {

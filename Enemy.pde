@@ -1,6 +1,5 @@
 class Enemy extends GameObject implements Collide
 {
-  int ammo;
   float startX;
   float startY;
   boolean sway;
@@ -14,7 +13,6 @@ class Enemy extends GameObject implements Collide
   {
     super(startX,StartY);
     
-    this.ammo = 5;
     this.startX=startX;
     this.startY=startY;
     this.sway=true;
@@ -85,7 +83,7 @@ class Enemy extends GameObject implements Collide
     if(health <= 0)
     {
       drops = int(random(0,100));
-      if(drops == 15);
+      if(drops == 15)
       {
         LiveUp drop = new LiveUp(position.x, position.y);
         Objects.add(drop);

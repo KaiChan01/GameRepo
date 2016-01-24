@@ -1,4 +1,4 @@
-class Bullet extends GameObject implements BulletHit
+class Bullet extends GameObject implements BulletHit, BulletHit2
 {
   
   Bullet(float x, float y, float posX, float posY)
@@ -26,7 +26,12 @@ class Bullet extends GameObject implements BulletHit
     enemy.health -= 25;
     Objects.remove(this);
   }
-    
+  
+  void damage2(Enemy2 enemy)
+  {
+    enemy.health -= 25;
+    Objects.remove(this);
+  } 
   
   void move()
   {

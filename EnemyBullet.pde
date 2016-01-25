@@ -21,7 +21,6 @@ class EnemyBullet extends GameObject implements EnemyHit
     stroke(51,255,255);
     ellipse(0,0,5*size,5*size);
     popMatrix();
-    println(position.x,position.y);
   }
   
   void move()

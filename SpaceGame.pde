@@ -140,7 +140,6 @@ void draw()
       
       ObjectsMethods.die();
     }
-    println(Objects.size());
     
     checkBullet();
     LivePower();

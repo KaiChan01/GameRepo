@@ -1,6 +1,7 @@
 class Enemy2 extends GameObject implements Collide
 {
   int destX, destY;
+  int waitTime;
   int drops;
   int ammo;
   
@@ -16,6 +17,7 @@ class Enemy2 extends GameObject implements Collide
     this.speed = 1.5;
     this.health = 150;
     this.ammo = 6;
+    this.waitTime = 10;
     
     this.MoveUP.mult(speed);
     this.MoveDOWN.mult(speed);
@@ -71,14 +73,25 @@ class Enemy2 extends GameObject implements Collide
     if(ammo > 0)
     {
       if(frameCount%30 == 0)
+      {
+        for(int i = 1; i < 6; i++)
         {
-          for(int i = 1; i < 6; i++)
-          {
-            EnemyBullet c = new EnemyBullet(int(position.x), int(position.y), HALF_PI+i/0.01);
-            Objects.add(c);
-          }
-          ammo --;
+          EnemyBullet c = new EnemyBullet(int(position.x), int(position.y), HALF_PI+i/0.01);
+          Objects.add(c);
         }
+        ammo --;
+      }
+    }
+    
+    if(ammo == 0)
+    {
+      waitTime --;
+      println(waitTime);
+      if(waitTime == 0)
+      {
+        ammo = 6;
+        waitTime = 40;
+      }
     }
   }
   
@@ -95,7 +108,7 @@ class Enemy2 extends GameObject implements Collide
   {
     if(health <= 0)
     {
-      drops = int(random(0,150));
+      drops = int(random(0,100));
       if(drops == 15)
       {
         LiveUp drop = new LiveUp(position.x, position.y);

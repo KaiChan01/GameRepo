@@ -49,7 +49,16 @@ class GunPowerUp extends GameObject implements Collide
   
   void apply(Player player)
   {
-    player.ammo += 1000;
+    if(player.ammo < 10000)
+    {
+      player.ammo += 1000;
+      
+      //Don't be OP
+      if(player.ammo > 10000)
+      {
+        player.ammo = 10000;
+      }
+    }
     Objects.remove(this);
   }
   

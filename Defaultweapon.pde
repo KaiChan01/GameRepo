@@ -62,6 +62,14 @@ class Defaultweapon extends GameObject
       Bullet bullet = new Bullet(weaponType, x , y, position.x ,-position.y, angle);
       Objects.add(bullet);
       
+      //Animation some flashes
+      stroke(100,100,0,100);
+      fill(255,255,0,100);
+      pushMatrix();
+      translate(x,y);
+      ellipse(position.x,-position.y,10*size,10*size);
+      popMatrix();
+      
       if(weaponType == 0)
       {
         cd = 0;

@@ -16,8 +16,8 @@ class Enemy2 extends GameObject implements Collide
     this.destY = int(random((50*size),height-(100*size)));
     this.speed = 1.5;
     this.health = 150;
-    this.ammo = 6;
-    this.waitTime = 10;
+    this.ammo = 3;
+    this.waitTime = 40;
     
     this.MoveUP.mult(speed);
     this.MoveDOWN.mult(speed);
@@ -56,7 +56,7 @@ class Enemy2 extends GameObject implements Collide
     {
       position.add(MoveLEFT);
     }
-    else
+    else if(position.x < destX)
     {
       position.add(MoveRIGHT);
     }
@@ -65,7 +65,7 @@ class Enemy2 extends GameObject implements Collide
     {
       position.add(MoveUP);
     }
-    else
+    else if(position.y < destY)
     {
       position.add(MoveDOWN);
     }
@@ -86,10 +86,9 @@ class Enemy2 extends GameObject implements Collide
     if(ammo == 0)
     {
       waitTime --;
-      println(waitTime);
       if(waitTime == 0)
       {
-        ammo = 6;
+        ammo = 3;
         waitTime = 40;
       }
     }
@@ -108,10 +107,17 @@ class Enemy2 extends GameObject implements Collide
   {
     if(health <= 0)
     {
-      drops = int(random(0,100));
+      drops = int(random(0,50));
       if(drops == 15)
       {
         LiveUp drop = new LiveUp(position.x, position.y);
+        Objects.add(drop);
+      }
+      
+      // 5 out of 50 chance for GunPowerUp
+      if(drops == 1 || drops == 2 || drops == 3 || drops == 4 || drops == 5)
+      {
+        GunPowerUp drop = new GunPowerUp(position.x, position.y);
         Objects.add(drop);
       }
       Objects.remove(this);

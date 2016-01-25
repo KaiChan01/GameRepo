@@ -12,12 +12,13 @@ class Player extends GameObject
   float startY;
   
   int weaponType;
+  int shootReady;
   int ammo;
+  int exhaust;
   
   int invincFrame;
   int coolDown1;
   int coolDown2;
-  float gun1x;
   
   Player()
   {
@@ -41,10 +42,13 @@ class Player extends GameObject
     this.lives = 3;
     this.bombs = 3;
     this.speed = 2*size;
-    this.gun1x = 15*size;
+    this.shootReady = 11;
     
-    this.coolDown1 = 10;
-    this.coolDown2 = 10;
+    //Just for animation
+    this.exhaust = 1;
+    
+    this.coolDown1 = shootReady;
+    this.coolDown2 = shootReady;
     
     this.invincFrame = 25;
   }
@@ -122,6 +126,7 @@ class Player extends GameObject
       if(input[up] == true)
       {
         position.add(MoveUP);
+        exhaustAnimation();
       }
      
       if(input[down] == true)
@@ -167,12 +172,24 @@ class Player extends GameObject
     
   }
   
+  void exhaustAnimation()
+  {
+    pushMatrix();
+    translate(position.x,position.y);
+    fill(51,153,255);
+    triangle((12*size),20*size,15*size,20*size,(12*size+15*size)/2, 25*size);
+    triangle(-(12*size),20*size,-15*size,20*size,-(12*size+15*size)/2, 25*size);
+    triangle(-size,12*size,size,12*size, 0, 20*size);
+    popMatrix();
+  }
+  
   void startAnimation()
   {
     if(start == true)
     {
       if(position.y > height-(height/4) && animation == true)
       {
+        exhaustAnimation();
         for(int i = 0; i < startY/1000; i++)
         {
           position.add(MoveUP);
@@ -188,12 +205,22 @@ class Player extends GameObject
   
   void guns()
   {
-    ammo = 0;
+    if(ammo <= 0)
+    {
+      weaponType = 0;
+    }
+    
+    
+    if(ammo > 0)
+    {
+      weaponType = 1;
+    }
+    
     if(weaponType == 0)
     {
       //Draw 2 guns
-      Defaultweapon defaultweapon1 = new Defaultweapon(position.x, position.y, shoot, gun1x);
-      Defaultweapon defaultweapon2 = new Defaultweapon(position.x, position.y, shoot, -gun1x);
+      Defaultweapon defaultweapon1 = new Defaultweapon(weaponType, position.x, position.y, shoot, 15*size, 8*size, 0);
+      Defaultweapon defaultweapon2 = new Defaultweapon(weaponType, position.x, position.y, shoot, -15*size, 8*size, 0);
     
       defaultweapon1.drawObject();
       defaultweapon2.drawObject();
@@ -204,7 +231,7 @@ class Player extends GameObject
         coolDown2 = defaultweapon2.shoot(coolDown2);
       }
       
-      if(coolDown1 < 11)
+      if(coolDown1 < shootReady)
       {
         coolDown1++;
         coolDown2++;
@@ -213,6 +240,34 @@ class Player extends GameObject
     
     if(weaponType == 1)
     {
+      //Draw 2  normal guns
+      Defaultweapon defaultweapon1 = new Defaultweapon(weaponType, position.x, position.y, shoot, 14*size, 9*size, 0);
+      Defaultweapon defaultweapon2 = new Defaultweapon(weaponType, position.x, position.y, shoot, -14*size, 9*size, 0);
+      
+      //Draw 2 angled guns
+      Defaultweapon defaultweapon3 = new Defaultweapon(weaponType, position.x, position.y, shoot, 20*size, size, 0.2f);
+      Defaultweapon defaultweapon4 = new Defaultweapon(weaponType, position.x, position.y, shoot, -20*size, size, -0.2f);
+      
+      defaultweapon1.drawObject();
+      defaultweapon2.drawObject();
+    
+      defaultweapon3.drawObject();
+      defaultweapon4.drawObject();
+      
+      if(start == true && animation == false)
+      {
+        if(input[shoot] == true)
+        {
+          ammo--;
+        }
+        
+        println(ammo);
+        
+        coolDown1 = defaultweapon1.shoot(coolDown1);
+        coolDown1 = defaultweapon2.shoot(coolDown1);
+        coolDown1 = defaultweapon3.shoot(coolDown1);
+        coolDown1 = defaultweapon4.shoot(coolDown1);
+      }
     }
   }
   

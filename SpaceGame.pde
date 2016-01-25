@@ -142,7 +142,7 @@ void draw()
     }
     
     checkBullet();
-    LivePower();
+    PowerUp();
     CheckEnemyBullet();
     playerCollision();
     checkBullet2();
@@ -280,7 +280,7 @@ void playerCollision()
   }
 }
 
-void LivePower()
+void PowerUp()
 {
   for(int i = 0; i < Objects.size(); i++)
   {
@@ -289,12 +289,12 @@ void LivePower()
     {
       for(int j = 0; j < Objects.size(); j++)
       {
-        GameObject live = Objects.get(j);
-        if(live instanceof LiveUp)
+        GameObject power = Objects.get(j);
+        if(power instanceof LiveUp || power instanceof GunPowerUp)
         {
-          if(player.position.dist(live.position) < (16*size)+(10*size/2))
+          if(player.position.dist(power.position) < (16*size)+(10*size/2))
           {
-            ((Collide) live).apply((Player)player);
+            ((Collide) power).apply((Player)player);
           }
         }
       }

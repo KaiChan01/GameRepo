@@ -259,8 +259,6 @@ class Player extends GameObject
           ammo--;
         }
         
-        println(ammo);
-        
         coolDown1 = defaultweapon1.shoot(coolDown1);
         coolDown1 = defaultweapon2.shoot(coolDown1);
         coolDown1 = defaultweapon3.shoot(coolDown1);

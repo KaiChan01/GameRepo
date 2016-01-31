@@ -2,10 +2,6 @@ class EnemyBullet extends GameObject implements EnemyHit
 {
   float angle;
   
-  EnemyBullet()
-  {
-  }
-  
   EnemyBullet(int shipX, int shipY, float angle)
   {
     super(shipX, shipY);

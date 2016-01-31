@@ -2,6 +2,7 @@
    Author: Ka Yu Chan
    Date: 26/12/15
 */
+
 int spawn;
 int spawnNum;
 boolean spawnOne;
@@ -14,6 +15,7 @@ PFont spaceFont;
 
 ArrayList<Star> stars = new ArrayList<Star>();
 ArrayList<GameObject> Objects = new ArrayList<GameObject>();
+ArrayList<Score> HighScore = new ArrayList<Score>();
 
 int newStars;
 boolean start;
@@ -25,6 +27,8 @@ boolean help;
 float size;
 
 boolean[] input = new boolean[512];
+
+int score;
 
 void setup()
 {
@@ -41,6 +45,9 @@ void setup()
   spawnOne = false;
   help = false;
   
+  //Player start with 0
+  score = 0;
+  
   //Making initial Stars
   for(int i = 0; i < 100; i++)
   {
@@ -51,6 +58,9 @@ void setup()
   //Making player test
   GameObject one = new Player(width/2,height+(30*size),'W','S','A','D','J','K','L');
   Objects.add(one);
+  
+  //Read highscore once
+  ReadHighScore();
 }
 
 void draw()
@@ -151,6 +161,13 @@ void draw()
     if(help == true)
     {
       helpMenu();
+    }
+    
+    println(score);
+    
+    if(gameOver == true)
+    {
+      GameOver();
     }
   }
 }
@@ -319,6 +336,29 @@ void helpMenu()
   text("S - Move Down",(50*size),(100*size));
   text("D - Move left",(50*size),(120*size));
   rectMode(CORNER);
+}
+
+void ReadHighScore()
+{
+  String[] s = loadStrings("Highscore.csv");
+  for(String playerScore: s)
+  {
+    Score score = new Score(playerScore);
+    HighScore.add(score);
+  }
+}
+
+void GameOver()
+{
+  //If score is greater than any Highscores, over write
+  
+  
+  //Display highscore
+  for(int i = 0; i < HighScore.size() ; i++)
+  {
+    text(HighScore.get(i).name + "   " + HighScore.get(i).score, 100,100);
+  }
+    
 }
 
 void keyPressed()

@@ -2,10 +2,6 @@ class GunPowerUp extends GameObject implements Collide
 {
   int dirX, dirY;
   
-  GunPowerUp()
-  {
-  }
-  
   GunPowerUp(float X, float Y)
   {
     super(X,Y);

@@ -2,10 +2,6 @@ class LiveUp extends GameObject implements Collide
 {
   int dirX, dirY;
   
-  LiveUp()
-  {
-  }
-  
   LiveUp(float X, float Y)
   {
     super(X,Y);

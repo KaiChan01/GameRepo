@@ -5,10 +5,6 @@ class Enemy extends GameObject implements Collide
   boolean sway;
   int drops;
   
-  Enemy()
-  {
-  }
-  
   Enemy(float startX, float StartY)
   {
     super(startX,StartY);
@@ -96,6 +92,7 @@ class Enemy extends GameObject implements Collide
         Objects.add(drop);
       }
       
+      score = score + 100;
       Objects.remove(this);
     }
   }

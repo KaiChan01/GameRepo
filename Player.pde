@@ -19,10 +19,7 @@ class Player extends GameObject
   int invincFrame;
   int coolDown1;
   int coolDown2;
-  
-  Player()
-  {
-  }
+
   
   Player(float newX, float newY, char upKey, char downKey, char leftKey, char rightKey, char shootKey, char bombKey, char dropKey)
   {
@@ -49,7 +46,6 @@ class Player extends GameObject
     
     this.coolDown1 = shootReady;
     this.coolDown2 = shootReady;
-    
     this.invincFrame = 25;
   }
   
@@ -112,6 +108,8 @@ class Player extends GameObject
     {
       invincFrame++;
     }
+    
+    gameOver = false;
   }
   
   void move()
@@ -283,8 +281,8 @@ class Player extends GameObject
     
     if(lives == 0)
     {
-      Objects.remove(this);
       gameOver = true;
+      Objects.remove(this);
     }
   }
 }

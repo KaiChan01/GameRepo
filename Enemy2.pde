@@ -4,10 +4,7 @@ class Enemy2 extends GameObject implements Collide
   int waitTime;
   int drops;
   int ammo;
-  
-  Enemy2()
-  {
-  }
+
   
   Enemy2(int startX, int StartY)
   {
@@ -120,6 +117,8 @@ class Enemy2 extends GameObject implements Collide
         GunPowerUp drop = new GunPowerUp(position.x, position.y);
         Objects.add(drop);
       }
+      
+      score = score + 500;
       Objects.remove(this);
     }
   }

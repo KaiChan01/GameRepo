@@ -1,4 +1,4 @@
-class EnemyBullet extends GameObject implements EnemyHit
+class EnemyBullet extends GameObject implements Collide
 {
   float angle;
   
@@ -29,7 +29,7 @@ class EnemyBullet extends GameObject implements EnemyHit
     position.add(MoveDOWN);
   }
   
-  void hit(Player player)
+  void apply(Player player)
   {
     player.health -= 20;
     Objects.remove(this);

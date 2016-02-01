@@ -266,7 +266,7 @@ void playerCollision()
         {
           if(player.position.dist(object.position) < (16*size)+(5*size/2))
           {
-            ((EnemyHit) object).hit((Player)player);
+            ((Collide) object).apply((Player)player);
           }
         }
         

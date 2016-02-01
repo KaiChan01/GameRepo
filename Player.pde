@@ -238,6 +238,8 @@ class Player extends GameObject
     
     if(weaponType == 1)
     {
+      coolDown1 = shootReady;
+      
       //Draw 2  normal guns
       Defaultweapon defaultweapon1 = new Defaultweapon(weaponType, position.x, position.y, shoot, 14*size, 9*size, 0);
       Defaultweapon defaultweapon2 = new Defaultweapon(weaponType, position.x, position.y, shoot, -14*size, 9*size, 0);
@@ -269,8 +271,23 @@ class Player extends GameObject
   
   void die()
   {
-    fill(255);
-    rect(5*size,height-(8*size),health,5*size);
+    fill(map(health, 100, 0, 0, 255),map(health, 0, 100, 0, 255), 0);
+    //Drawing health
+    rect(5*size,height-(13*size),health,10*size);
+    
+    //Showing ammo
+    if(weaponType == 0)
+    {
+      fill(255);
+      text("---------",width-(20*size),height-(5*size));
+    }
+
+    if(weaponType == 1)
+    {
+      fill(map(ammo, 10000, 0, 0, 255), map(ammo, 0, 10000, 0, 255), map(ammo, 0, 10000, 0, 255));
+      text(ammo, width-(20*size),height-(5*size));
+    }
+    
     if(health <= 0)
     {
       health = 100;

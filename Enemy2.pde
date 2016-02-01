@@ -104,15 +104,15 @@ class Enemy2 extends GameObject implements Collide
   {
     if(health <= 0)
     {
-      drops = int(random(0,50));
-      if(drops == 15)
+      drops = int(random(0,30));
+      if(drops > 20)
       {
         LiveUp drop = new LiveUp(position.x, position.y);
         Objects.add(drop);
       }
       
-      // 5 out of 50 chance for GunPowerUp
-      if(drops == 1 || drops == 2 || drops == 3 || drops == 4 || drops == 5)
+      // 1 out of 3 chance for GunPowerUp
+      if(drops > 11)
       {
         GunPowerUp drop = new GunPowerUp(position.x, position.y);
         Objects.add(drop);

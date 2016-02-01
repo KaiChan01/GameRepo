@@ -215,9 +215,10 @@ void playerInfo()
   fill(204,0,204);
   stroke(204,0,204);
   textSize(25);
-  text("Health: ", 5*size,height-(10*size));
+  text("Health: ", 5*size,height-(15*size));
+  text("Score: " + score, 5*size,(15*size));
   textAlign(RIGHT);
-  text("Ammo: ",width-(20*size),height-(5*size));
+  text("Ammo",width-(20*size),height-(15*size));
 }
 
 //Chec if bullet hit Enemy
@@ -360,7 +361,7 @@ void keyPressed()
   
   if(inputName == true)
   {
-    if(name.length() < 3)
+    if(name.length() <= 3)
     {
       if(key == BACKSPACE)
       {
@@ -371,11 +372,14 @@ void keyPressed()
       }
       else
       {
-        name = name + key;
-        println(name);
-      }
+        if(name.length() < 3)
+        {
+          name = name + key;
+          println(name);
+        }
       }
     }
+  }
 }
 
 void keyReleased()

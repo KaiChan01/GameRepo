@@ -289,18 +289,19 @@ class Player extends GameObject
         {
           charge++;
         }
+        
         stroke(0,102,204);
         fill(0,255,255);
         ellipse(position.x, position.y-(20*size), map(charge, 0, maxCharge, 0, 50), map(charge, 0, maxCharge, 0, 50));
         stroke(0,255,255);
         fill(255);
         ellipse(position.x, position.y-(20*size), map(charge, 0, maxCharge, 0, 40), map(charge, 0, maxCharge, 0, 40));
-        println(charge);
         }
       }
       
       if(charge > 0 && input[cannonKey] == false)
       {
+        cannonFire = true;
         charge -= 2;
         stroke(0,102,204);
         fill(0,255,255);
@@ -309,9 +310,12 @@ class Player extends GameObject
         fill(255);
         ellipse(position.x, position.y-(20*size), map(charge, 0, maxCharge, 0, 40), map(charge, 0, maxCharge, 0, 40));
         rectMode(CORNERS);
-        rect(position.x-map(charge, 0, maxCharge, 0, size), position.y-(20*size), position.x+map(charge, 0, maxCharge, 0, size), -height);
+        rect(position.x-map(charge, 0, maxCharge, 0, 2*size), position.y-(20*size), position.x+map(charge, 0, maxCharge, 0, 2*size), -height);
         
-        cannonFire = true;
+        if(charge <= 0)
+        {
+          cannonFire = false;
+        }
       }
     }
   

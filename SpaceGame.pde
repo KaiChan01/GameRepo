@@ -92,6 +92,7 @@ void draw()
     objectMethods();
     
     checkBullet();
+    checkLaser();
     playerCollision();
     
     if(gameOver == true)
@@ -216,7 +217,6 @@ void objectMethods()
         a.startAnimation();
       }
     }
-      
     ObjectsMethods.die();
   }
 }
@@ -302,9 +302,10 @@ void playerCollision()
   }
 }
 
-/*void checkLaser()
+//Please fix the hit box
+void checkLaser()
 {
-  if(cannonFire = true)
+  if(cannonFire == true)
   {
     for(int i = 0; i < Objects.size(); i++)
     {
@@ -314,18 +315,33 @@ void playerCollision()
         for(int j = 0; j < Objects.size(); j++)
         {
           GameObject enemy = Objects.get(j);
-          if(enemy instanceof Enemy || enemy instanceof Enemy2)
+          if(enemy instanceof Enemy)
           {
-            if(((enemy.position.x+(10*size/2))-(player.position.x-map(player.charge, 0, player.maxCharge, 0, size))) < 0)
-            {
-              println("yes");
+            Player p = (Player) player;
+            if(((enemy.position.x+(10*size/2))-(p.position.x-map(p.charge, 0, p.maxCharge, 0, size))) > 0 &&
+               ((enemy.position.x-(10*size/2))-(p.position.x+map(p.charge, 0, p.maxCharge, 0, size))) < 0)
+            { 
+              Enemy e = (Enemy) enemy;
+              e.health -= 100;
+            }
+          }
+          
+          if(enemy instanceof Enemy2)
+          {
+            Player p = (Player) player;
+            if(((enemy.position.x+(10*size/2))-(p.position.x-map(p.charge, 0, p.maxCharge, 0, size))) > 0 &&
+               ((enemy.position.x-(10*size/2))-(p.position.x+map(p.charge, 0, p.maxCharge, 0, size))) < 0)
+            { 
+               println(((enemy.position.x-(10*size/2))-(p.position.x+map(p.charge, 0, p.maxCharge, 0, size/2))));
+              Enemy2 e = (Enemy2) enemy;
+              e.health -= 100;
             }
           }
         }
       }
     }
   }   
-}*/
+}
 
 void helpMenu()
 {

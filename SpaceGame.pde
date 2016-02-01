@@ -15,6 +15,9 @@ boolean animation;
 boolean inputName;
 boolean help;
 
+//Check cannon
+boolean cannonFire;
+
 //for spawning a few things
 int newStars;
 int spawn;
@@ -194,9 +197,10 @@ void spawn()
   }
 }
 
+//Drawing player first
 void objectMethods()
 {
-  for(int i = 0; i < Objects.size(); i++)
+  for(int i = Objects.size()-1; i > -1; i--)
   {
     GameObject ObjectsMethods = Objects.get(i);
     
@@ -297,6 +301,31 @@ void playerCollision()
     }
   }
 }
+
+/*void checkLaser()
+{
+  if(cannonFire = true)
+  {
+    for(int i = 0; i < Objects.size(); i++)
+    {
+      GameObject player = Objects.get(i);
+      if(player instanceof Player)
+      {
+        for(int j = 0; j < Objects.size(); j++)
+        {
+          GameObject enemy = Objects.get(j);
+          if(enemy instanceof Enemy || enemy instanceof Enemy2)
+          {
+            if(((enemy.position.x+(10*size/2))-(player.position.x-map(player.charge, 0, player.maxCharge, 0, size))) < 0)
+            {
+              println("yes");
+            }
+          }
+        }
+      }
+    }
+  }   
+}*/
 
 void helpMenu()
 {

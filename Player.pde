@@ -3,6 +3,7 @@ class Player extends GameObject
   //Fields for player
   int cannon;
   int charge;
+  int maxCharge;
   
   char up;
   char down;
@@ -35,12 +36,13 @@ class Player extends GameObject
     this.right = rightKey;
     
     this.shoot = shootKey;
-    this.cannonKey = connonKey;
+    this.cannonKey = cannonKey;
     this.barrier = barrier;
     
     this.health = 100;
     this.lives = 3;
     
+    this.maxCharge = 150;
     this.cannon = 3;
     this.charge = 0;
     
@@ -282,18 +284,43 @@ class Player extends GameObject
     {
       if(input[cannonKey] == true && animation == false)
       {
-        while(charge < 1000)
+        cannonFire = false;
+        if(charge < maxCharge)
         {
           charge++;
         }
+        stroke(0,102,204);
+        fill(0,255,255);
+        ellipse(position.x, position.y-(20*size), map(charge, 0, maxCharge, 0, 50), map(charge, 0, maxCharge, 0, 50));
+        stroke(0,255,255);
+        fill(255);
+        ellipse(position.x, position.y-(20*size), map(charge, 0, maxCharge, 0, 40), map(charge, 0, maxCharge, 0, 40));
+        println(charge);
+        }
+      }
+      
+      if(charge > 0 && input[cannonKey] == false)
+      {
+        charge -= 2;
+        stroke(0,102,204);
+        fill(0,255,255);
+        ellipse(position.x, position.y-(20*size), map(charge, 0, maxCharge, 0, 50), map(charge, 0, maxCharge, 0, 50));
+        stroke(0,255,255);
+        fill(255);
+        ellipse(position.x, position.y-(20*size), map(charge, 0, maxCharge, 0, 40), map(charge, 0, maxCharge, 0, 40));
+        rectMode(CORNERS);
+        rect(position.x-map(charge, 0, maxCharge, 0, size), position.y-(20*size), position.x+map(charge, 0, maxCharge, 0, size), -height);
+        
+        cannonFire = true;
       }
     }
-  }
   
   void die()
   {
     fill(map(health, 100, 0, 0, 255),map(health, 0, 100, 0, 255), 0);
+    
     //Drawing health
+    rectMode(CORNER);
     rect(5*size,height-(13*size),health,10*size);
     
     //Showing ammo

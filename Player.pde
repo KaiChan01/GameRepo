@@ -1,14 +1,16 @@
 class Player extends GameObject
 {
   //Fields for player
-  float bombs;
+  int cannon;
+  int charge;
+  
   char up;
   char down;
   char left;
   char right;
   char shoot; 
-  char bomb; 
-  char drop;
+  char cannonKey; 
+  char barrier;
   float startY;
   
   int weaponType;
@@ -20,8 +22,7 @@ class Player extends GameObject
   int coolDown1;
   int coolDown2;
 
-  
-  Player(float newX, float newY, char upKey, char downKey, char leftKey, char rightKey, char shootKey, char bombKey, char dropKey)
+  Player(float newX, float newY, char upKey, char downKey, char leftKey, char rightKey, char shootKey, char cannonKey, char barrier)
   {
     super(newX, newY);
     
@@ -32,12 +33,17 @@ class Player extends GameObject
     this.down = downKey;
     this.left = leftKey;
     this.right = rightKey;
+    
     this.shoot = shootKey;
-    this.bomb = bombKey;
-    this. drop = dropKey;
+    this.cannonKey = connonKey;
+    this.barrier = barrier;
+    
     this.health = 100;
     this.lives = 3;
-    this.bombs = 3;
+    
+    this.cannon = 3;
+    this.charge = 0;
+    
     this.speed = 2*size;
     this.shootReady = 11;
     
@@ -203,16 +209,18 @@ class Player extends GameObject
   
   void guns()
   {
+    //If ammo = 0, use defualt weapon
     if(ammo <= 0)
     {
       weaponType = 0;
     }
     
-    
+    //Upgrade weapon
     if(ammo > 0)
     {
       weaponType = 1;
     }
+    
     
     if(weaponType == 0)
     {
@@ -236,6 +244,7 @@ class Player extends GameObject
       }
     }
     
+    //Upgraded weapon
     if(weaponType == 1)
     {
       coolDown1 = shootReady;
@@ -265,6 +274,18 @@ class Player extends GameObject
         coolDown1 = defaultweapon2.shoot(coolDown1);
         coolDown1 = defaultweapon3.shoot(coolDown1);
         coolDown1 = defaultweapon4.shoot(coolDown1);
+      }
+    }
+    
+    //Big cannon
+    if(cannon > 0)
+    {
+      if(input[cannonKey] == true && animation == false)
+      {
+        while(charge < 1000)
+        {
+          charge++;
+        }
       }
     }
   }

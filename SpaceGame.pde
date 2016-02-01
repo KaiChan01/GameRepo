@@ -75,8 +75,38 @@ void setup()
 void draw()
 {  
   background(0);
+  drawStars();
   
-  for(int i = 0; i < stars.size(); i++)
+  //Moving other objects  
+  if(start == false)
+  {
+    menu();
+  }
+  else
+  {
+    playerInfo();
+    spawn();
+    objectMethods();
+    
+    checkBullet();
+    playerCollision();
+    
+    if(gameOver == true)
+    {
+      GameOver();
+    }
+  }
+  
+  //Toggle help menu
+  if(help == true && inputName == false)
+  {
+    helpMenu();
+  }
+}
+
+void drawStars()
+{
+    for(int i = 0; i < stars.size(); i++)
   {
     Star StarMethods = stars.get(i);
     
@@ -91,88 +121,6 @@ void draw()
   {
      Star star = new Star((random(0,width)), 0);
      stars.add(star);
-  }
-  
-  //Moving other objects  
-  if(start == false)
-  {
-    menu();
-    if(help == true)
-    {
-      helpMenu();
-    }
-  }
-  else
-  {
-    playerInfo();
-    
-    if(animation == false)
-    {
-      //Enemies spawn
-      spawn = int(random(0,500));
-      if(spawn == 20 && spawnOne == false)
-      {
-        tempPos = playerPos;
-        spawnOne = true;
-        spawnNum = 5;
-      }
-   
-      if(spawnOne == true)
-      {
-        if(frameCount%60 == 0)
-        {
-          GameObject a = new Enemy(tempPos, -50*size);
-          Objects.add(a);
-          spawnNum --;
-        }
-          
-        if(spawnNum < 1)
-        {
-          spawnOne = false;
-        }
-      }
-      
-      //Spawning second type of enemy
-      if(spawn == 50)
-      {
-        GameObject b = new Enemy2(int(random(0,width)), int(-50*size));
-        Objects.add(b);
-      }
-    }
-    
-    for(int i = 0; i < Objects.size(); i++)
-    {
-      GameObject ObjectsMethods = Objects.get(i);
-    
-      ObjectsMethods.drawObject();
-      ObjectsMethods.move();
-      
-      if((Objects.get(i)) instanceof Player)
-      {
-        Player a = (Player) Objects.get(i);
-        a.guns();
-        if(animation == true)
-        {
-          a.startAnimation();
-        }
-      }
-      
-      ObjectsMethods.die();
-    }
-    
-    checkBullet();
-    playerCollision();
-    
-    //Toggle help menu
-    if(help == true && inputName == false)
-    {
-      helpMenu();
-    }
-    
-    if(gameOver == true)
-    {
-      GameOver();
-    }
   }
 }
 
@@ -207,6 +155,66 @@ void menu()
   
   textSize(width/(10*size));
   text("Start", width/2, 9*(height/10));
+}
+
+void spawn()
+{
+  if(animation == false)
+  {
+    //Enemies spawn
+    spawn = int(random(0,500));
+    if(spawn == 20 && spawnOne == false)
+    {
+      tempPos = playerPos;
+      spawnOne = true;
+      spawnNum = 5;
+    }
+   
+    if(spawnOne == true)
+    {
+      if(frameCount%60 == 0)
+      {
+        GameObject a = new Enemy(tempPos, -50*size);
+        Objects.add(a);
+        spawnNum --;
+      }
+          
+      if(spawnNum < 1)
+      {
+        spawnOne = false;
+      }
+    }
+      
+    //Spawning second type of enemy
+    if(spawn == 50)
+    {
+      GameObject b = new Enemy2(int(random(0,width)), int(-50*size));
+      Objects.add(b);
+    }
+  }
+}
+
+void objectMethods()
+{
+  for(int i = 0; i < Objects.size(); i++)
+  {
+    GameObject ObjectsMethods = Objects.get(i);
+    
+    ObjectsMethods.drawObject();
+    ObjectsMethods.move();
+      
+    if((Objects.get(i)) instanceof Player)
+    {
+      Player a = (Player) Objects.get(i);
+      a.guns();
+      if(animation == true)
+      {
+        a.startAnimation();
+      }
+    }
+      
+    ObjectsMethods.die();
+  }
 }
 
 void playerInfo()
@@ -339,8 +347,7 @@ void GameOver()
   for(int i = 0; i < HighScore.size() ; i++)
   {
     text(HighScore.get(i).name + "   " + HighScore.get(i).score, 100,100);
-  }
-    
+  } 
 }
 
 void enterName()

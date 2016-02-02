@@ -59,6 +59,8 @@ class Player extends GameObject
   
   void drawObject()
   {
+    rectMode(CORNER);
+    
     pushMatrix();
     translate(position.x, position.y);
     

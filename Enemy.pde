@@ -32,8 +32,13 @@ class Enemy extends GameObject implements Collide
     fill(255,85,85);
     stroke(255,85,85);
     ellipse(-(5*size/2),-(5*size/2),8*size,8*size);
-    
     popMatrix();
+    
+    //Draw a small life bar
+    stroke(0,255,0);
+    fill(255);
+    rectMode(RADIUS);
+    rect(position.x, position.y-(30*size)/2, map(health, 0, 200, 0, 20*size), 2*size);
   }
   
   void move()

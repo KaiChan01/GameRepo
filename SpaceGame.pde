@@ -322,7 +322,7 @@ void checkLaser()
                 (p.position.x+map(p.charge, 0, p.maxCharge, 0, size))- (enemy.position.x-(25*size/2))> 0)
             {
               Enemy e = (Enemy) enemy;
-              e.health -= 100;
+              e.health -= map(p.charge, 0, p.maxCharge, 0 ,20);
             }
           }
           
@@ -332,7 +332,7 @@ void checkLaser()
                 (p.position.x+map(p.charge, 0, p.maxCharge, 0, size))- (enemy.position.x-(30*size/2))> 0)
             {
               Enemy2 e = (Enemy2) enemy;
-              e.health -= 100;
+              e.health -= map(p.charge, 0, p.maxCharge, 0 ,15);
             }
           }
         }

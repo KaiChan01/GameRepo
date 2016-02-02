@@ -45,6 +45,12 @@ class Enemy2 extends GameObject implements Collide
     vertex(-17*size,5*size);
     endShape();
     popMatrix();
+    
+    //Draw a small life bar
+    stroke(0,255,0);
+    fill(255);
+    rectMode(RADIUS);
+    rect(position.x, position.y-(30*size)/2, map(health, 0, 150, 0, 20*size), 2*size);
   }
   
   void move()

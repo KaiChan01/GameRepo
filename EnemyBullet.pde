@@ -6,7 +6,7 @@ class EnemyBullet extends GameObject implements Collide
   {
     super(shipX, shipY);
     this.angle = angle;
-    this.speed = 3*size;
+    this.speed = 2*size;
   }
   
   void drawObject()

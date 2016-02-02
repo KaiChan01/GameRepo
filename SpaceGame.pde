@@ -312,15 +312,15 @@ void checkLaser()
       GameObject player = Objects.get(i);
       if(player instanceof Player)
       {
+        Player p = (Player) player;
         for(int j = 0; j < Objects.size(); j++)
         {
           GameObject enemy = Objects.get(j);
           if(enemy instanceof Enemy)
           {
-            Player p = (Player) player;
-            if(((enemy.position.x+(10*size/2))-(p.position.x-map(p.charge, 0, p.maxCharge, 0, size))) > 0 &&
-               ((enemy.position.x-(10*size/2))-(p.position.x+map(p.charge, 0, p.maxCharge, 0, size))) < 0)
-            { 
+            if( ((enemy.position.x+(25*size/2)))-p.position.x-map(p.charge, 0, p.maxCharge, 0, size) > 0 &&
+                (p.position.x+map(p.charge, 0, p.maxCharge, 0, size))- (enemy.position.x-(25*size/2))> 0)
+            {
               Enemy e = (Enemy) enemy;
               e.health -= 100;
             }
@@ -328,11 +328,9 @@ void checkLaser()
           
           if(enemy instanceof Enemy2)
           {
-            Player p = (Player) player;
-            if(((enemy.position.x+(10*size/2))-(p.position.x-map(p.charge, 0, p.maxCharge, 0, size))) > 0 &&
-               ((enemy.position.x-(10*size/2))-(p.position.x+map(p.charge, 0, p.maxCharge, 0, size))) < 0)
-            { 
-               println(((enemy.position.x-(10*size/2))-(p.position.x+map(p.charge, 0, p.maxCharge, 0, size/2))));
+            if( ((enemy.position.x+(30*size/2)))-p.position.x-map(p.charge, 0, p.maxCharge, 0, size) > 0 &&
+                (p.position.x+map(p.charge, 0, p.maxCharge, 0, size))- (enemy.position.x-(30*size/2))> 0)
+            {
               Enemy2 e = (Enemy2) enemy;
               e.health -= 100;
             }

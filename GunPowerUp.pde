@@ -17,7 +17,7 @@ class GunPowerUp extends GameObject implements Collide
     stroke(51,255,153);
     fill(255,0,0);
     ellipse(0,0,10*size,10*size);
-    fill(25,51,0);
+    fill(51,255,51);
     text("M",0,0);
     popMatrix();
   }
@@ -45,14 +45,14 @@ class GunPowerUp extends GameObject implements Collide
   
   void apply(Player player)
   {
-    if(player.ammo < 10000)
+    if(player.ammo < 5000)
     {
-      player.ammo += 1000;
+      player.ammo += 200;
       
       //Don't be OP
-      if(player.ammo > 10000)
+      if(player.ammo > 5000)
       {
-        player.ammo = 10000;
+        player.ammo = 5000;
       }
     }
     Objects.remove(this);

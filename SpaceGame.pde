@@ -68,7 +68,7 @@ void setup()
   }
   
   //Making player test
-  GameObject one = new Player(width/2,height+(30*size),'W','S','A','D','J','K','L');
+  GameObject one = new Player(width/2,height+(30*size),'W','S','A','D','J','K');
   Objects.add(one);
   
   //Read highscore once
@@ -344,19 +344,45 @@ void checkLaser()
 void helpMenu()
 {
   stroke(0,51,102);
-  fill(0, 150);
+  fill(0, 220);
   rectMode(CENTER);
   rect(width/2,height/2,width-80*size,height-40*size);
   textSize(16*size);
   fill(0,255,255);
   textAlign(CENTER);
   text("CONTROLS AND TIPS",width/2,40*size);
+  text("*Help Menu does not pause the game!!*",width/2,220*size);
   textSize(10*size);
   textAlign(LEFT);
-  text("W - Move up",(50*size),(60*size));
-  text("A - Move left",(50*size),(80*size));
-  text("S - Move Down",(50*size),(100*size));
-  text("D - Move left",(50*size),(120*size));
+  text("W - Move up",(70*size),(80*size));
+  text("A - Move left",(70*size),(100*size));
+  text("S - Move Down",(70*size),(120*size));
+  text("D - Move left",(70*size),(140*size));
+  
+  text("J - Shoot",(250*size),(80*size));
+  text("K - Hold to Charge cannon",(250*size),(100*size));
+  text("- Ammo for Machine Gun", (260*size),(142*size));
+  text("- Restore one live (MAX 3)", (260*size),(174*size));
+  
+  //Showing power ups
+  pushMatrix();
+  translate(245*size,140*size);
+  stroke(51,255,153);
+  fill(255,0,0);
+  ellipse(0,0,15*size,15*size);
+  fill(51,255,51);
+  text("M",0,0);
+  popMatrix();
+  
+  pushMatrix();
+  translate(245*size,170*size);
+  stroke(51,255,153);
+  fill(255,255,0);
+  ellipse(0,0,15*size,15*size);
+  fill(25,51,0);
+  text("1Up",0,0);
+  popMatrix();
+  
   rectMode(CORNER);
 }
 

@@ -4,13 +4,12 @@ class Enemy2 extends GameObject implements Collide
   int waitTime;
   int drops;
   int ammo;
-
   
   Enemy2(int startX, int StartY)
   {
     super(startX,StartY);
     this.destX = int(random(0,width));
-    this.destY = int(random((50*size),height-(100*size)));
+    this.destY = int(random((50*size),100*size));
     this.speed = 1.5;
     this.health = 150;
     this.ammo = 3;
@@ -55,23 +54,25 @@ class Enemy2 extends GameObject implements Collide
   
   void move()
   {
-    if(position.x > destX)
-    {
-      position.add(MoveLEFT);
-    }
-    else if(position.x < destX)
-    {
-      position.add(MoveRIGHT);
-    }
+      if(position.x > destX)
+      {
+        position.add(MoveLEFT);
+      }
     
-    if(position.y > destY)
-    {
-      position.add(MoveUP);
-    }
-    else if(position.y < destY)
-    {
-      position.add(MoveDOWN);
-    }
+      if(position.x < destX)
+      {
+        position.add(MoveRIGHT);
+      }
+      
+      if(position.y > destY)
+      {
+        position.add(MoveUP);
+      }
+      
+      if(position.y < destY)
+      {
+        position.add(MoveDOWN);
+      }
     
     if(ammo > 0)
     {

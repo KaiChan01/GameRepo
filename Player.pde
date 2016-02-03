@@ -11,7 +11,6 @@ class Player extends GameObject
   char right;
   char shoot; 
   char cannonKey; 
-  char barrier;
   float startY;
   
   int weaponType;
@@ -20,10 +19,11 @@ class Player extends GameObject
   int exhaust;
   
   int invincFrame;
+  int invincColour;
   int coolDown1;
   int coolDown2;
 
-  Player(float newX, float newY, char upKey, char downKey, char leftKey, char rightKey, char shootKey, char cannonKey, char barrier)
+  Player(float newX, float newY, char upKey, char downKey, char leftKey, char rightKey, char shootKey, char cannonKey)
   {
     super(newX, newY);
     
@@ -37,7 +37,6 @@ class Player extends GameObject
     
     this.shoot = shootKey;
     this.cannonKey = cannonKey;
-    this.barrier = barrier;
     
     this.health = 100;
     this.lives = 3;
@@ -54,25 +53,35 @@ class Player extends GameObject
     
     this.coolDown1 = shootReady;
     this.coolDown2 = shootReady;
-    this.invincFrame = 25;
+    this.invincFrame = 50;
   }
   
   void drawObject()
   {
+    if(invincFrame == 50)
+    {
+      this.invincColour = 255;
+    }
+    else
+    {
+      this.invincColour = 150;
+    }
+    
+    
     rectMode(CORNER);
     
     pushMatrix();
     translate(position.x, position.y);
     
     //Exhaust
-    fill(100);
-    stroke(100);
+    fill(100, invincColour);
+    stroke(100, invincColour);
     rect((12*size),(4*size),(3*size),(14*size));
     rect(-(12*size),(4*size),-(3*size),(14*size));
     rect(-size,10*size,2*size,2*size);
     
-    fill(150,0,0);
-    stroke(150,0,0);
+    fill(150,0,0, invincColour);
+    stroke(150,0,0, invincColour);
     beginShape();
     //Right side of ship
     vertex(0,-4*size);
@@ -108,13 +117,13 @@ class Player extends GameObject
     endShape();
     
     //Cockpit
-    fill(100,100,255);
+    fill(100,100,255, invincColour);
     ellipse(0,0,3*size,10*size);
     
     playerPos = position.x ;
     popMatrix();
     
-    if(invincFrame < 25)
+    if(invincFrame < 50)
     {
       invincFrame++;
     }

@@ -31,8 +31,12 @@ class EnemyBullet extends GameObject implements Collide
   
   void apply(Player player)
   {
-    player.health -= 20;
-    Objects.remove(this);
+    if(player.invincFrame == 50)
+    {
+      player.health -= 20;
+      player.invincFrame = 0;
+      Objects.remove(this);
+    }
   }
   
   void die()

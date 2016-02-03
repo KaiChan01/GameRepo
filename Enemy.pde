@@ -72,7 +72,7 @@ class Enemy extends GameObject implements Collide
   
   void apply(Player player)
   {
-    if(player.invincFrame == 25)
+    if(player.invincFrame == 50)
     {
       player.health -= 40;
       player.invincFrame = 0;
@@ -97,7 +97,7 @@ class Enemy extends GameObject implements Collide
         Objects.add(drop);
       }
       
-      score = score + 100;
+      score = score + 200;
       Objects.remove(this);
     }
   }

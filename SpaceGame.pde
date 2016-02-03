@@ -231,6 +231,16 @@ void playerInfo()
   text("Score: " + score, 5*size,(15*size));
   textAlign(RIGHT);
   text("Ammo",width-(20*size),height-(15*size));
+  
+  rectMode(CENTER);
+  fill(82,82,82);
+  stroke(82,82,82);
+  rect(width-15*size, height/2+50*size, 20*size, 100*size); 
+  
+  //Showing cannon charge
+  fill(169,169,169);
+  stroke(169,169,169);
+  rect(width-15*size, height/2+50*size, 15*size, 95*size);
 }
 
 //Chec if bullet hit Enemy

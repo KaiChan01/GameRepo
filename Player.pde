@@ -344,6 +344,10 @@ class Player extends GameObject
       fill(255);
       text("---------",width-(20*size),height-(5*size));
     }
+    
+    rectMode(CORNER);
+    fill(139,237,255);
+    rect(width-15*size+(15*size/2), height/2+50*size+(95*size/2), -15*size, map(charge, 0 , maxCharge, 0, -95*size));
 
     if(weaponType == 1)
     {

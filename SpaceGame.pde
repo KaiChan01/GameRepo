@@ -3,6 +3,15 @@
    Date: 26/12/15
 */
 
+//Sounds
+import ddf.minim.*;
+Minim minim;
+
+AudioPlayer Menu;
+AudioPlayer BGM;
+AudioPlayer select;
+AudioPlayer helpTrigger;
+AudioPlayer gun;
 
 ArrayList<Star> stars = new ArrayList<Star>();
 ArrayList<GameObject> Objects = new ArrayList<GameObject>();
@@ -14,6 +23,8 @@ boolean gameOver;
 boolean animation;
 boolean inputName;
 boolean help;
+
+boolean finished;
 
 //Check cannon
 boolean cannonFire;
@@ -36,8 +47,8 @@ PFont spaceFont;
 //used in relation to screen size
 float size;
 
-//Key input
-boolean[] input = new boolean[512];
+//Key input, 512 was not enough memory, for example the windows button was arrayoutofbounds
+boolean[] input = new boolean[1000];
 
 void setup()
 {
@@ -56,6 +67,11 @@ void setup()
   help = false;
   
   name = "";
+  
+  minim = new Minim(this);
+  loadSound();
+  
+  finished = false;
   
   //Player start with 0
   score = 0;
@@ -87,6 +103,14 @@ void draw()
   }
   else
   {
+    
+    if(finished == false)
+    {
+      Menu.pause();
+      BGM.loop();
+      finished = true;
+    }
+    
     playerInfo();
     spawn();
     objectMethods();
@@ -130,6 +154,8 @@ void drawStars()
 
 void menu()
 {
+  Menu.play();
+  
   textAlign(CENTER);
   textFont(spaceFont);
   fill(127,0,255);
@@ -151,7 +177,8 @@ void menu()
     fill(0,255,255);
     
     if(mousePressed == true)
-    {
+    { 
+      select.play();
       start = true;
       animation= true;
     }
@@ -437,6 +464,14 @@ void enterName()
   inputName = true;
 }
   
+void loadSound()
+{
+  BGM = minim.loadFile ("BGM.wav");
+  Menu = minim.loadFile ("menu.wav");
+  select = minim.loadFile ("select.wav");
+  helpTrigger = minim.loadFile ("help.wav");
+  gun = minim.loadFile ("Gun.wav");
+}
 
 void keyPressed()
 {
@@ -445,7 +480,9 @@ void keyPressed()
   //tried using input['H'] but it's too fast
   if(key == 'h')
   {
+    helpTrigger.rewind();
     help = !help;
+    helpTrigger.play();
   }
   
   if(inputName == true)

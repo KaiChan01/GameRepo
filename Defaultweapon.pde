@@ -3,6 +3,7 @@ class Defaultweapon extends GameObject
   int infinity;
   float angle;
   int weaponType;
+  int soundIndex;
   
   float x, y;
   char shootButton;
@@ -16,6 +17,7 @@ class Defaultweapon extends GameObject
     this.angle = angle;
     this.x = shipX;
     this.y = shipY;
+    this.soundIndex = 1;
   }
   
   void drawObject()
@@ -72,6 +74,8 @@ class Defaultweapon extends GameObject
       
       if(weaponType == 0)
       {
+        gun.rewind();
+        gun.play();
         cd = 0;
       }
       

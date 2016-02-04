@@ -227,7 +227,8 @@ void playerInfo()
   fill(204,0,204);
   stroke(204,0,204);
   textSize(25);
-  text("Health: ", 5*size,height-(15*size));
+  text("Health: ", 5*size,height-(30*size));
+  text("Lives: ", 5*size,height-(8*size));
   text("Score: " + score, 5*size,(15*size));
   textAlign(RIGHT);
   text("Ammo",width-(20*size),height-(15*size));
@@ -312,7 +313,7 @@ void playerCollision()
   }
 }
 
-//Please fix the hit box
+//check if laser hits
 void checkLaser()
 {
   if(cannonFire == true)
@@ -329,7 +330,8 @@ void checkLaser()
           if(enemy instanceof Enemy)
           {
             if( ((enemy.position.x+(25*size/2)))-p.position.x-map(p.charge, 0, p.maxCharge, 0, size) > 0 &&
-                (p.position.x+map(p.charge, 0, p.maxCharge, 0, size))- (enemy.position.x-(25*size/2))> 0)
+                (p.position.x+map(p.charge, 0, p.maxCharge, 0, size))- (enemy.position.x-(25*size/2))> 0 &&
+                 p.position.y > enemy.position.y)
             {
               Enemy e = (Enemy) enemy;
               e.health -= map(p.charge, 0, p.maxCharge, 0 ,20);
@@ -339,7 +341,8 @@ void checkLaser()
           if(enemy instanceof Enemy2)
           {
             if( ((enemy.position.x+(30*size/2)))-p.position.x-map(p.charge, 0, p.maxCharge, 0, size) > 0 &&
-                (p.position.x+map(p.charge, 0, p.maxCharge, 0, size))- (enemy.position.x-(30*size/2))> 0)
+                (p.position.x+map(p.charge, 0, p.maxCharge, 0, size))- (enemy.position.x-(30*size/2))> 0 &&
+                 p.position.y > enemy.position.y)
             {
               Enemy2 e = (Enemy2) enemy;
               e.health -= map(p.charge, 0, p.maxCharge, 0 ,15);

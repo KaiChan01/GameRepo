@@ -67,12 +67,58 @@ class Player extends GameObject
       this.invincColour = 150;
     }
     
+    fill(map(health, 100, 0, 0, 255),map(health, 0, 100, 0, 255), 0);
+    stroke(70,100,255);
+    //Drawing health
+    rectMode(CORNER);
+    rect(5*size,height-(28*size),health,5*size);
+    
+    //Showing ammo
+    if(weaponType == 0)
+    {
+      fill(255);
+      text("---------",width-(20*size),height-(5*size));
+    }
+    
+    //Cannon
+    rectMode(CORNER);
+    fill(139,237,255);
+    rect(width-15*size+(15*size/2), height/2+50*size+(95*size/2), -15*size, map(charge, 0 , maxCharge, 0, -95*size));
+
+    if(weaponType == 1)
+    {
+      fill(map(ammo, 10000, 0, 0, 255), map(ammo, 0, 10000, 0, 255), map(ammo, 0, 10000, 0, 255));
+      text(ammo, width-(20*size),height-(5*size));
+    }
     
     rectMode(CORNER);
-    
+    //player ship
     pushMatrix();
-    translate(position.x, position.y);
+    shipRender(position.x, position.y, 1);
+    popMatrix();
+    playerPos = position.x ;
     
+    //drawing ships that represent lives
+    for(int i = 0; i < lives; i++)
+    {
+      
+      pushMatrix();
+      shipRender(55*size+(i*(15*size)),height-(10*size), 0.3);
+      popMatrix();
+    }
+    
+    if(invincFrame < 50)
+    {
+      invincFrame++;
+    }
+    
+    gameOver = false;
+  }
+  
+  void shipRender(float x, float y, float scale)
+  {
+    translate(x, y);
+    scale(scale);
     //Exhaust
     fill(100, invincColour);
     stroke(100, invincColour);
@@ -119,17 +165,7 @@ class Player extends GameObject
     //Cockpit
     fill(100,100,255, invincColour);
     ellipse(0,0,3*size,10*size);
-    
-    playerPos = position.x ;
-    popMatrix();
-    
-    if(invincFrame < 50)
-    {
-      invincFrame++;
-    }
-    
-    gameOver = false;
-  }
+}
   
   void move()
   {   
@@ -331,30 +367,7 @@ class Player extends GameObject
     }
   
   void die()
-  {
-    fill(map(health, 100, 0, 0, 255),map(health, 0, 100, 0, 255), 0);
-    
-    //Drawing health
-    rectMode(CORNER);
-    rect(5*size,height-(13*size),health,10*size);
-    
-    //Showing ammo
-    if(weaponType == 0)
-    {
-      fill(255);
-      text("---------",width-(20*size),height-(5*size));
-    }
-    
-    rectMode(CORNER);
-    fill(139,237,255);
-    rect(width-15*size+(15*size/2), height/2+50*size+(95*size/2), -15*size, map(charge, 0 , maxCharge, 0, -95*size));
-
-    if(weaponType == 1)
-    {
-      fill(map(ammo, 10000, 0, 0, 255), map(ammo, 0, 10000, 0, 255), map(ammo, 0, 10000, 0, 255));
-      text(ammo, width-(20*size),height-(5*size));
-    }
-    
+  { 
     if(health <= 0)
     {
       health = 100;

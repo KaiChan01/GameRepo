@@ -119,7 +119,7 @@ class Enemy2 extends GameObject implements Collide
       }
       
       // 1 out of 3 chance for GunPowerUp
-      if(drops > 11)
+      if(drops < 11)
       {
         GunPowerUp drop = new GunPowerUp(position.x, position.y);
         Objects.add(drop);

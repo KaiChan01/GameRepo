@@ -231,17 +231,17 @@ void playerInfo()
   text("Lives: ", 5*size,height-(8*size));
   text("Score: " + score, 5*size,(15*size));
   textAlign(RIGHT);
-  text("Ammo",width-(20*size),height-(15*size));
+  text("Ammo",width-(40*size),height-(15*size));
   
   rectMode(CENTER);
   fill(82,82,82);
   stroke(82,82,82);
-  rect(width-15*size, height/2+50*size, 20*size, 100*size); 
+  rect(width-15*size, height/2+70*size, 20*size, 100*size); 
   
   //Showing cannon charge
   fill(169,169,169);
   stroke(169,169,169);
-  rect(width-15*size, height/2+50*size, 15*size, 95*size);
+  rect(width-15*size, height/2+70*size, 15*size, 95*size);
 }
 
 //Chec if bullet hit Enemy

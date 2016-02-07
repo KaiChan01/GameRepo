@@ -14,6 +14,7 @@ AudioPlayer helpTrigger;
 AudioPlayer gun;
 AudioPlayer laser;
 AudioPlayer Charge;
+AudioPlayer release;
 
 ArrayList<Star> stars = new ArrayList<Star>();
 ArrayList<GameObject> Objects = new ArrayList<GameObject>();
@@ -25,6 +26,7 @@ boolean gameOver;
 boolean animation;
 boolean inputName;
 boolean boss;
+boolean bossSpawned;
 boolean help;
 
 boolean finished;
@@ -36,9 +38,12 @@ boolean cannonFire;
 int newStars;
 int spawn;
 int spawnNum;
+
+//Number of bosses defeated
+int bossNum;
+
 boolean spawnOne;
-float playerPos;
-float playerPosY;
+PVector playerPos;
 float tempPos;
 
 //Player name if highscore is beaten
@@ -70,6 +75,10 @@ void setup()
   inputName = false;
   help = false;
   boss = false;
+  bossSpawned = false;
+  
+  playerPos = new PVector(0,0);
+  bossNum = 1;
   
   name = "";
   
@@ -108,6 +117,11 @@ void draw()
   }
   else
   {
+
+    if(score > 15000*bossNum)
+    {
+      boss = true;
+    }
     
     if(finished == false)
     {
@@ -116,8 +130,18 @@ void draw()
       finished = true;
     }
     
+    if(boss == false)
+    {
+      spawn();
+    }
+    
+    if(boss == true && bossSpawned == false)
+    {
+      boss();
+      bossSpawned = true;
+    }
+    
     playerInfo();
-    spawn();
     objectMethods();
     
     checkBullet();
@@ -201,7 +225,7 @@ void spawn()
     spawn = int(random(0,500));
     if(spawn == 20 && spawnOne == false)
     {
-      tempPos = playerPos;
+      tempPos = playerPos.y;
       spawnOne = true;
       spawnNum = 5;
     }
@@ -229,6 +253,13 @@ void spawn()
     }
   }
 }
+
+void boss()
+{
+  GameObject Boss = new Boss();
+  Objects.add(Boss);
+}
+  
 
 //Drawing player first
 void objectMethods()
@@ -319,7 +350,7 @@ void playerCollision()
         GameObject object = Objects.get(j);
         if(object instanceof EnemyBullet)
         {
-          if(player.position.dist(object.position) < (16*size)+(5*size/2))
+          if(player.position.dist(object.position) < (7*size)+(5*size/2))
           {
             ((Collide) object).apply((Player)player);
           }
@@ -327,7 +358,7 @@ void playerCollision()
         
         if(object instanceof Enemy || object instanceof Enemy2)
         {
-          if(player.position.dist(object.position) < (16*size)+(25*size/2))
+          if(player.position.dist(object.position) < (7*size)+(25*size/2))
           {
             ((Collide) object).apply((Player)player);
           }
@@ -443,6 +474,9 @@ void ReadHighScore()
 
 void GameOver()
 {
+  //Final score = score + number of boss defeated
+  score = score + (1000*bossNum);
+  
   //If score is greater than any Highscores, over write
   for(int i = 0; i < HighScore.size() ; i++)
   {
@@ -478,6 +512,7 @@ void loadSound()
   gun = minim.loadFile ("Gun.wav");
   laser = minim.loadFile("Laser.wav");
   Charge = minim.loadFile("charge.wav");
+  release = minim.loadFile("Release.wav");
 }
 
 void keyPressed()

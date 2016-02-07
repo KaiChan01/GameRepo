@@ -56,6 +56,10 @@ class Player extends GameObject
     this.coolDown1 = shootReady;
     this.coolDown2 = shootReady;
     this.invincFrame = 50;
+    
+    MoveDOWN.mult(speed);
+    MoveLEFT.mult(speed);
+    MoveRIGHT.mult(speed);
   }
   
   void drawObject()
@@ -101,8 +105,7 @@ class Player extends GameObject
     popMatrix();
     
     //For swawning Enemy and boss
-    playerPosY = position.y;
-    playerPos = position.x ;
+    playerPos = new PVector(position.x, position.y);
     
     //drawing ships that represent lives
     for(int i = 0; i < lives; i++)
@@ -171,14 +174,13 @@ class Player extends GameObject
     //Cockpit
     fill(100,100,255, invincColour);
     ellipse(0,0,3*size,10*size);
-}
+    
+    fill(255,150);
+    ellipse(0,0,7*size,7*size);
+  }
   
   void move()
   {   
-    this.MoveUP.mult(speed);
-    this.MoveDOWN.mult(speed);
-    this.MoveLEFT.mult(speed);
-    this.MoveRIGHT.mult(speed);
     
     if(start == true && animation == false)
     {
@@ -223,12 +225,6 @@ class Player extends GameObject
         position.y = height-18*size;
       }
     }
-
-    MoveUP = new PVector(0,-1);
-    MoveDOWN = new PVector(0, 1);
-    MoveLEFT = new PVector(-1, 0);
-    MoveRIGHT = new PVector(1, 0);
-    
   }
   
   void exhaustAnimation()
@@ -258,6 +254,7 @@ class Player extends GameObject
     if(position.y < height-(height/4)+size)
     {
       animation = false;
+      MoveUP.mult(speed);
     }
   }
   
@@ -372,7 +369,10 @@ class Player extends GameObject
       
       if(charge > 0 && input[cannonKey] == false)
       {
+        //Sounds
         Charge.pause();
+        release.play( int(map(charge, maxCharge , 0, 0 , release.length() )));
+        
         
         cannonFire = true;
         charge -= 2;

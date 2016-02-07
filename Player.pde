@@ -17,6 +17,7 @@ class Player extends GameObject
   int shootReady;
   int ammo;
   int exhaust;
+  boolean sound;
   
   int invincFrame;
   int invincColour;
@@ -47,6 +48,7 @@ class Player extends GameObject
     
     this.speed = 2*size;
     this.shootReady = 11;
+    this.sound = false;
     
     //Just for animation
     this.exhaust = 1;
@@ -91,11 +93,15 @@ class Player extends GameObject
       text(ammo, width-(40*size),height-(5*size));
     }
     
+    //Drawing the Main ship
     rectMode(CORNER);
     //player ship
     pushMatrix();
     shipRender(position.x, position.y, 1);
     popMatrix();
+    
+    //For swawning Enemy and boss
+    playerPosY = position.y;
     playerPos = position.x ;
     
     //drawing ships that represent lives
@@ -312,12 +318,30 @@ class Player extends GameObject
       defaultweapon4.drawObject();
       
       if(start == true && animation == false)
-      {
+      { 
         if(input[shoot] == true)
         {
+          if(sound == false)
+          {
+            laser.play();
+            sound = true;
+          }
+          
+          //laser.isPlaying() is always true if laser.play() is not surround by an if statement to stop it from playing
+          if(laser.isPlaying() == false)
+          {
+            laser.rewind();
+            sound = false;
+          }
+          
           ammo--;
         }
-        
+        else
+        {
+          laser.pause();
+          laser.rewind();
+        }
+          
         coolDown1 = defaultweapon1.shoot(coolDown1);
         coolDown1 = defaultweapon2.shoot(coolDown1);
         coolDown1 = defaultweapon3.shoot(coolDown1);
@@ -333,6 +357,7 @@ class Player extends GameObject
         cannonFire = false;
         if(charge < maxCharge)
         {
+          Charge.play( int(map(charge, 0 , maxCharge, 0 , Charge.length() )));
           charge++;
         }
         
@@ -347,6 +372,8 @@ class Player extends GameObject
       
       if(charge > 0 && input[cannonKey] == false)
       {
+        Charge.pause();
+        
         cannonFire = true;
         charge -= 2;
         stroke(0,102,204);

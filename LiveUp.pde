@@ -50,11 +50,18 @@ class LiveUp extends GameObject implements Collide
       player.lives++;
       Objects.remove(this);
     }
-    else
+    else if(player.health < 100)
+    {
+      player.health = 100;
+      Objects.remove(this);
+    }
+    
+    if(player.health == 100 && player.lives == 3)
     {
       fill(0,204,204);
       text("MAX LIVES",player.position.x,player.position.y);
     }
+    
   }
   
   void die()

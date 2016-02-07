@@ -12,6 +12,8 @@ AudioPlayer BGM;
 AudioPlayer select;
 AudioPlayer helpTrigger;
 AudioPlayer gun;
+AudioPlayer laser;
+AudioPlayer Charge;
 
 ArrayList<Star> stars = new ArrayList<Star>();
 ArrayList<GameObject> Objects = new ArrayList<GameObject>();
@@ -22,6 +24,7 @@ boolean start;
 boolean gameOver;
 boolean animation;
 boolean inputName;
+boolean boss;
 boolean help;
 
 boolean finished;
@@ -35,6 +38,7 @@ int spawn;
 int spawnNum;
 boolean spawnOne;
 float playerPos;
+float playerPosY;
 float tempPos;
 
 //Player name if highscore is beaten
@@ -65,6 +69,7 @@ void setup()
   spawnOne = false;
   inputName = false;
   help = false;
+  boss = false;
   
   name = "";
   
@@ -471,6 +476,8 @@ void loadSound()
   select = minim.loadFile ("select.wav");
   helpTrigger = minim.loadFile ("help.wav");
   gun = minim.loadFile ("Gun.wav");
+  laser = minim.loadFile("Laser.wav");
+  Charge = minim.loadFile("charge.wav");
 }
 
 void keyPressed()

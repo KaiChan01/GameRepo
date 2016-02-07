@@ -84,7 +84,7 @@ class Enemy extends GameObject implements Collide
     if(health <= 0)
     {
       drops = int(random(0,30));
-      if(drops > 20)
+      if(drops > 28)
       {
         LiveUp drop = new LiveUp(position.x, position.y);
         Objects.add(drop);

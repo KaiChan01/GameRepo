@@ -118,7 +118,7 @@ void draw()
   else
   {
 
-    if(score > 15000*bossNum)
+    if(score > 15000*bossNum);
     {
       boss = true;
     }

@@ -6,7 +6,14 @@ class Boss extends GameObject
   
   boolean idleMode;
   boolean shootMode;
+  
   boolean laserMode;
+  boolean aim;
+  
+  PVector lockOn;
+  
+  int aimSpeed;
+  int laserAmmo;
   int ammo;
   int rotate;
   int pattern;
@@ -14,16 +21,21 @@ class Boss extends GameObject
   Boss()
   {
     super(width/2, -100*size);
-    this.health = 10000;
+    this.health = 1000*bossNum;
     this.speed = 0.5;
+    this.aimSpeed = 4;
     this.idleMode = false;
     this.shootMode = true;
     this.laserMode = false;
     this.ammo = 500;
+    this.laserAmmo = 3;
     this.rotate = 0;
     this.pattern = 5;
     
     MoveDOWN.mult(speed);
+    MoveUP.mult(aimSpeed);
+    MoveLEFT.mult(aimSpeed);
+    MoveRIGHT.mult(aimSpeed);
   }
   
   
@@ -44,6 +56,8 @@ class Boss extends GameObject
       {
         idleMode = false;
         laserMode = true;
+        aim = true;
+        lockOn = new PVector(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), eyeY);
       }
     }
     
@@ -108,7 +122,44 @@ class Boss extends GameObject
   
   void laser()
   {
-    
+    if(aim == true)
+    {
+      stroke(255,0,0);
+      fill(255,0,0, 200);
+      
+      line(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), eyeY, lockOn.x, lockOn.y);
+      ellipse(lockOn.x, lockOn.y, 20*size,20*size);
+      
+      if(lockOn.x >= playerPos.x)
+      {
+        lockOn.add(MoveLEFT);
+      }
+      else
+      {
+        lockOn.add(MoveRIGHT);
+      }
+      
+      if(lockOn.y >= playerPos.y)
+      {
+        lockOn.add(MoveUP);
+      }
+      else
+      {
+        lockOn.add(MoveDOWN);
+      }
+      
+      if(lockOn.dist(playerPos) < 7*size)
+      {
+        aim = false;
+      }
+    }
+    else
+    {
+      stroke(255,0,0);
+      fill(255,0,0, 200);
+      line(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), eyeY, lockOn.x, lockOn.y);
+      ellipse(lockOn.x, lockOn.y, 20*size,20*size);
+    }
   }
   
   void move()
@@ -116,6 +167,11 @@ class Boss extends GameObject
     if(position.y < 0)
     {
       position.add(MoveDOWN);
+      
+      if(position.y == 0)
+      {
+        MoveDOWN.mult(aimSpeed);
+      }
     }
   }
   

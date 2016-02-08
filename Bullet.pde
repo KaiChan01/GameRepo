@@ -1,4 +1,4 @@
-class Bullet extends GameObject implements BulletHit, BulletHit2
+class Bullet extends GameObject implements BulletHit, BulletHit2, BulletHit3
 {
   float angle;
   int weaponType;
@@ -42,6 +42,12 @@ class Bullet extends GameObject implements BulletHit, BulletHit2
   }
   
   void damage2(Enemy2 enemy)
+  {
+    enemy.health -= damage;
+    Objects.remove(this);
+  } 
+  
+  void damage3(Boss enemy)
   {
     enemy.health -= damage;
     Objects.remove(this);

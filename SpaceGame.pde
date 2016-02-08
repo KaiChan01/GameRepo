@@ -333,6 +333,16 @@ void checkBullet()
             ((BulletHit2) bullet).damage2((Enemy2)enemy);
           }
         }
+        
+        if(enemy instanceof Boss)
+        {
+          Boss e = (Boss) enemy;
+          if(e.eyeHitbox.dist(bullet.position) < (size)+(100*size/2))
+          {
+            ((BulletHit3) bullet).damage3((Boss)enemy);
+            e.hit = true;
+          }
+        }
       }
     }
   }
@@ -369,6 +379,22 @@ void playerCollision()
           if(player.position.dist(object.position) < (16*size)+(10*size/2))
           {
             ((Collide) object).apply((Player)player);
+          }
+        }
+        
+        //Checking if explosion of bomb hits the player
+        if(object instanceof Boss)
+        {
+          Player p = (Player) player;
+          Boss e = (Boss) object;
+          if(e.bombMode == true)
+          {
+            println(e.lockOn.dist(p.position));
+            println((7*size)+e.explosion);
+            if(e.lockOn.dist(p.position) < (7*size)+e.explosion)
+            {
+              p.health--;
+            } 
           }
         }
       }
@@ -409,6 +435,18 @@ void checkLaser()
             {
               Enemy2 e = (Enemy2) enemy;
               e.health -= map(p.charge, 0, p.maxCharge, 0 ,15);
+            }
+          }
+          
+          if(enemy instanceof Boss)
+          {
+            Boss e = (Boss) enemy;
+            if( ((e.position.x+(100*size/2)))-p.position.x-map(p.charge, 0, p.maxCharge, 0, size) > 0 &&
+                (p.position.x+map(p.charge, 0, p.maxCharge, 0, size))- (e.position.x-(100*size/2))> 0 &&
+                 p.position.y > e.position.y)
+            {
+              e.health -= map(p.charge, 0, p.maxCharge, 0 ,15);
+              e.hit = true;
             }
           }
         }

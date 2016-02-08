@@ -1,20 +1,30 @@
 class Boss extends GameObject
 {
-  int status;
+  color colour;
   
-  float eyeY;
+  int status;
+  PVector eyePos;
   
   boolean idleMode;
   boolean shootMode;
+  boolean alive;
   
-  boolean laserMode;
+  boolean bombMode;
   boolean aim;
   
+  boolean hit;
+  
   PVector lockOn;
+  PVector eyeHitbox;
   
   int aimSpeed;
-  int laserAmmo;
   int ammo;
+  int explosion;
+  int charge;
+  int transparent;
+  
+  float bomb;
+  float angle;
   int rotate;
   int pattern;
   
@@ -26,11 +36,17 @@ class Boss extends GameObject
     this.aimSpeed = 4;
     this.idleMode = false;
     this.shootMode = true;
-    this.laserMode = false;
+    this.bombMode = false;
     this.ammo = 500;
-    this.laserAmmo = 3;
     this.rotate = 0;
-    this.pattern = 5;
+    this.pattern = int(random(1,6));
+    this.bomb = 20*size;
+    this.charge = 0;
+    this.hit = false;
+    this.transparent = 255;
+    this.alive = true;
+    
+    this.explosion = 0;
     
     MoveDOWN.mult(speed);
     MoveUP.mult(aimSpeed);
@@ -41,6 +57,27 @@ class Boss extends GameObject
   
   void drawObject()
   {
+    if(hit == false)
+    {
+      colour = color(255,transparent);
+    }
+    else
+    {
+      colour = color(255,150,150,transparent);
+    }
+    
+    eyePos = new PVector(map(playerPos.x, 0, width, -30*size, +30*size), 65*size);
+    eyeHitbox = new PVector(position.x,position.y+35*size);
+    
+    if(playerPos.x > width/2)
+    {
+      eyePos.y = map(playerPos.x, width/2, width, 65*size, 50*size);
+    }
+    else if(playerPos.x < width/2)
+    {
+      eyePos.y = map(playerPos.x, 0, width/2, 50*size, 65*size);
+    }
+    
     status = int(random(0,30));
     
     if(idleMode == true)
@@ -55,59 +92,53 @@ class Boss extends GameObject
       if(status == 1)
       {
         idleMode = false;
-        laserMode = true;
+        bombMode = true;
         aim = true;
-        lockOn = new PVector(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), eyeY);
+        lockOn = new PVector(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), eyePos.y);
       }
-    }
-    
-    if(playerPos.x > width/2)
-    {
-      eyeY = map(playerPos.x, width/2, width, 65*size, 50*size);
-    }
-    else if(playerPos.x < width/2)
-    {
-      eyeY = map(playerPos.x, 0, width/2, 50*size, 65*size);
     }
     
     pushMatrix();
     translate(position.x,position.y);
     
-    stroke(255);
-    fill(0,51,51);
+    stroke(255, transparent);
+    fill(0,51,51,transparent);
     ellipse(0,0, width+50*size, 100*size);
-    fill(255);
+    fill(colour);
     ellipse(0,35*size, 100*size, 100*size);
-    fill(152,0,0);
-    //60 is the edge of the eye, -40 should be right
-    ellipse(map(playerPos.x, 0, width, -30*size, 30*size), eyeY, 40*size,40*size);
+    fill(152,0,0,transparent);
+    
+    //60 is the edge of the eye,
+    ellipse(eyePos.x, eyePos.y, 40*size,40*size);
     
     strokeWeight(2*size);
-    stroke(102,0,0);
-    line(map(playerPos.x, 0, width, -30*size, 30*size)-19*size, eyeY, map(playerPos.x, 0, width, -30*size, 30*size)+19*size, eyeY);
-    line(map(playerPos.x, 0, width, -30*size, 30*size)-13*size, eyeY-13*size, map(playerPos.x, 0, width, -30*size, 30*size)+13*size, eyeY+13*size);
-    line(map(playerPos.x, 0, width, -30*size, 30*size)-13*size, eyeY+13*size, map(playerPos.x, 0, width, -30*size, 30*size)+13*size, eyeY-13*size);
-    line(map(playerPos.x, 0, width, -30*size, 30*size), eyeY-19*size, map(playerPos.x, 0, width, -30*size, 30*size), eyeY+19*size);
+    stroke(102,0,0,transparent);
+    line(eyePos.x-19*size, eyePos.y, eyePos.x+19*size, eyePos.y);
+    line(eyePos.x-13*size, eyePos.y-13*size, eyePos.x+13*size, eyePos.y+13*size);
+    line(eyePos.x-13*size, eyePos.y+13*size, eyePos.x+13*size, eyePos.y-13*size);
+    line(eyePos.x, eyePos.y-19*size, eyePos.x, eyePos.y+19*size);
     strokeWeight(1);
     
-    fill(0);
-    ellipse(map(playerPos.x, 0, width, -30*size, 30*size), eyeY, 20*size,20*size);
+    fill(0,transparent);
+    ellipse(eyePos.x, eyePos.y, 20*size,20*size);
     popMatrix();
     
-    if(shootMode == true && idleMode == false)
+    if(shootMode == true && idleMode == false && alive == true)
     {
       shoot();
     }
     
-    if(idleMode == false && laserMode == true)
+    if(idleMode == false && bombMode == true && alive == true)
     {
-      laser();
+      bomb();
     }
+    
+    hit =false;
   }
   
   void shoot()
   {
-    EnemyBullet b = new EnemyBullet(int(position.x+map(playerPos.x, 0, width, -30*size, 30*size)), int(position.y+eyeY), rotate -= pattern);
+    EnemyBullet b = new EnemyBullet(int(position.x+eyePos.x), int(position.y+eyePos.y), rotate -= pattern);
     Objects.add(b);
     
     ammo--;
@@ -120,15 +151,15 @@ class Boss extends GameObject
     }
   }
   
-  void laser()
+  void bomb()
   {
     if(aim == true)
     {
-      stroke(255,0,0);
+      stroke(255,0,0,transparent);
       fill(255,0,0, 200);
       
-      line(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), eyeY, lockOn.x, lockOn.y);
-      ellipse(lockOn.x, lockOn.y, 20*size,20*size);
+      line(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), eyePos.y, lockOn.x, lockOn.y);
+      ellipse(lockOn.x, lockOn.y, bomb,bomb);
       
       if(lockOn.x >= playerPos.x)
       {
@@ -155,10 +186,40 @@ class Boss extends GameObject
     }
     else
     {
-      stroke(255,0,0);
+      stroke(255,0,0,transparent);
       fill(255,0,0, 200);
-      line(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), eyeY, lockOn.x, lockOn.y);
-      ellipse(lockOn.x, lockOn.y, 20*size,20*size);
+      line(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), eyePos.y, lockOn.x, lockOn.y);
+      ellipse(lockOn.x, lockOn.y, bomb,bomb);
+      charge++;
+      
+      if(charge >= 25)
+      { 
+        if(bomb > 0);
+        {
+          bomb--;
+        }
+      
+        if(bomb == 0);
+        {
+          explosion += 2;
+          fill(242,156,44,transparent);
+          ellipse(lockOn.x, lockOn.y, explosion,explosion);
+          
+          if(explosion % 10 == 0)
+          {
+            fill(255,99,71,transparent);
+            ellipse(lockOn.x+random(-50*size, 50*size),lockOn.y+random(-50*size, 50*size), explosion/10,explosion/10);
+          }
+        
+          if(explosion == 100*size)
+          {
+            explosion = 0;
+            bomb = 20*size;
+            idleMode = true;
+            bombMode = false;
+          }
+        }    
+      }
     }
   }
   
@@ -177,7 +238,17 @@ class Boss extends GameObject
   
   void die()
   {
-    bossNum += 1;
+    if(health <= 0)
+    {
+      alive = false;
+      transparent -= 2;
+      if(transparent <= 0)
+      {
+        boss = false;
+        bossNum += 1;
+        Objects.remove(this);
+      }
+    }
   }
   
 }

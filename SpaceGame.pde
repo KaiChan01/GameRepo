@@ -3,6 +3,9 @@
    Date: 26/12/15
 */
 
+//For saving score
+PrintWriter highScoreFile;
+
 //Sounds
 import ddf.minim.*;
 Minim minim;
@@ -20,16 +23,28 @@ ArrayList<Star> stars = new ArrayList<Star>();
 ArrayList<GameObject> Objects = new ArrayList<GameObject>();
 ArrayList<Score> HighScore = new ArrayList<Score>();
 
+boolean startGame;
+
 //Game status
-boolean start;
-boolean gameOver;
+
+boolean finished;
 boolean animation;
-boolean inputName;
 boolean boss;
 boolean bossSpawned;
 boolean help;
+boolean finalScore;
 
-boolean finished;
+boolean inputName;
+
+/*
+boolean start;
+boolean gameOver;
+boolean nameConfirm;
+boolean saveScore;
+boolean display;
+*/
+
+int stage;
 
 //Check cannon
 boolean cannonFire;
@@ -38,6 +53,9 @@ boolean cannonFire;
 int newStars;
 int spawn;
 int spawnNum;
+
+//For while loops
+int i;
 
 //Number of bosses defeated
 int bossNum;
@@ -48,7 +66,12 @@ float tempPos;
 
 //Player name if highscore is beaten
 String name;
+String tempName;
+String tempName2;
 int score;
+int tempScore;
+int tempScore2;
+int index;
 
 //Loading some font
 PFont spaceFont;
@@ -66,24 +89,126 @@ void setup()
   
   //size is equal to 5
   size = (width-height) / 168;
+  startGame = true;
   
   spaceFont = createFont("airstrike.ttf", width/(10*size));
-  start = false;
-  gameOver = false;
+  
+  minim = new Minim(this);
+  loadSound();
+  
+  stage = 0;
+}
+
+void draw()
+{ 
+  background(0);
+  drawStars();
+  
+  switch (stage)
+  {
+    //Setup variables
+    case 0:
+    {
+      startGame();
+      stage = 1;
+      break;
+      //startGame = false;
+    }
+  
+  //Menu
+    case 1:
+    {
+      menu();
+      break;
+    }
+    
+    //Main game, draw, collision etc
+    case 2:
+    {
+      if(finished == false)
+      {
+        Menu.pause();
+        BGM.loop();
+        finished = true;
+      }
+      
+      if(score > 10000*bossNum)
+      {
+        boss = true;
+      }
+    
+      if(boss == false)
+      {
+        spawn();
+      }
+    
+      if(boss == true && bossSpawned == false)
+      {
+        boss();
+        bossSpawned = true;
+      }
+    
+      //Player info and draw
+      playerInfo();
+      objectMethods();
+      
+      //Collision
+      checkBullet();
+      checkLaser();
+      playerCollision();
+      
+      break;
+    }
+    
+    //GameOver
+    case 3:
+    {
+      GameOver();
+      deleteAll();
+      break;
+    }
+    
+    //Enter name
+    case 4:
+    {
+        nameConfirm();
+        break;
+    }
+    
+    case 5:
+    {
+      saveScore();
+      break;
+    }
+    
+    case 6:
+    {
+      displayScore();
+    }
+  }
+  
+  //Toggle help menu
+  if(help == true && stage < 3)
+  {
+    helpMenu();
+  }
+}
+
+void startGame()
+{ 
   animation = false;
   spawnOne = false;
   inputName = false;
   help = false;
   boss = false;
   bossSpawned = false;
+  finalScore = false;
+  //display = false;
   
   playerPos = new PVector(0,0);
   bossNum = 1;
   
   name = "";
-  
-  minim = new Minim(this);
-  loadSound();
   
   finished = false;
   
@@ -103,67 +228,14 @@ void setup()
   
   //Read highscore once
   ReadHighScore();
-}
-
-void draw()
-{  
-  background(0);
-  drawStars();
   
-  //Moving other objects  
-  if(start == false)
-  {
-    menu();
-  }
-  else
-  {
-
-    if(score > 15000*bossNum);
-    {
-      boss = true;
-    }
-    
-    if(finished == false)
-    {
-      Menu.pause();
-      BGM.loop();
-      finished = true;
-    }
-    
-    if(boss == false)
-    {
-      spawn();
-    }
-    
-    if(boss == true && bossSpawned == false)
-    {
-      boss();
-      bossSpawned = true;
-    }
-    
-    playerInfo();
-    objectMethods();
-    
-    checkBullet();
-    checkLaser();
-    playerCollision();
-    
-    if(gameOver == true)
-    {
-      GameOver();
-    }
-  }
-  
-  //Toggle help menu
-  if(help == true && inputName == false)
-  {
-    helpMenu();
-  }
+  Menu.rewind();
+  BGM.rewind();
 }
 
 void drawStars()
 {
-    for(int i = 0; i < stars.size(); i++)
+  for(int i = 0; i < stars.size(); i++)
   {
     Star StarMethods = stars.get(i);
     
@@ -208,7 +280,7 @@ void menu()
     if(mousePressed == true)
     { 
       select.play();
-      start = true;
+      stage = 2;
       animation= true;
     }
   }
@@ -260,7 +332,6 @@ void boss()
   Objects.add(Boss);
 }
   
-
 //Drawing player first
 void objectMethods()
 {
@@ -512,33 +583,36 @@ void ReadHighScore()
 
 void GameOver()
 {
-  //Final score = score + number of boss defeated
-  score = score + (1000*bossNum);
+  //Final score = score + number of boss defeated, since bossNum = 1 at the beginning I have to minus one at the end
+  if(finalScore == false)
+  {
+    score = score + (1000*(bossNum-1));
+    finalScore = true;
+  }
   
   //If score is greater than any Highscores, over write
   for(int i = 0; i < HighScore.size() ; i++)
   {
     if(score > HighScore.get(i).score)
     {
-      text("You beat one of the previous Highscore", 100, 100);
-      enterName();
+      fill(102,255,255);
+      stroke(102,255,255);
+      textAlign(CENTER);
+      text("You beat one of the previous Highscore!", width/2, height/2);
+      text("Please enter your name.", width/2, height/2+10*size);
       
-      HighScore.get(i).score = score;
-      i = HighScore.size();
+      inputName = true;
+      
+      text(name,width/2,height/2+30*size);
     }
-  }
-     
-  
-  //Display highscore
-  for(int i = 0; i < HighScore.size() ; i++)
-  {
-    text(HighScore.get(i).name + "   " + HighScore.get(i).score, 100,100);
+    else
+    {
+      fill(102,255,255);
+      stroke(102,255,255); 
+      textAlign(CENTER);
+      text("Nice try", width/2, height/2-10*size);
+    }
   } 
-}
-
-void enterName()
-{
-  inputName = true;
 }
   
 void loadSound()
@@ -558,7 +632,7 @@ void keyPressed()
   input[keyCode] = true;
   
   //tried using input['H'] but it's too fast
-  if(key == 'h')
+  if(key == 'h' && inputName == false)
   {
     helpTrigger.rewind();
     help = !help;
@@ -567,7 +641,7 @@ void keyPressed()
   
   if(inputName == true)
   {
-    if(name.length() <= 3)
+    if(name.length() <= 3 && stage < 4)
     {
       if(key == BACKSPACE)
       {
@@ -578,13 +652,125 @@ void keyPressed()
       }
       else
       {
-        if(name.length() < 3)
+        if(name.length() < 3 && key != ENTER)
         {
           name = name + key;
-          println(name);
         }
       }
     }
+    
+    if(key == ENTER && stage == 3)
+    {
+      if(name.length() < 1)
+      {
+        name = "AAA";
+      }
+      stage = 4;
+    }
+      
+    if(stage == 4)
+    {
+      if(key == 'y')
+      {
+        stage = 5;
+      }
+        
+      if(key == 'n')
+      {
+        stage = 3;
+      }
+    }
+    
+    if(stage == 6 && key == 'r')
+    {
+      deleteScore();
+      stage = 0;
+    }
+  }
+}
+
+void nameConfirm()
+{
+  fill(204,0,204);
+  stroke(204,0,204);
+  textAlign(CENTER);
+  text(name + ", is this correct? Y/N", width/2,height/2+30*size);
+}
+
+void saveScore()
+{
+  //Going from bottom to top
+  for(int i = HighScore.size()-1; i > -1; i--)
+  {
+    if(score > HighScore.get(i).score)
+    {
+      index = i;
+    }
+  }
+  
+  tempName = HighScore.get(index).name;
+  tempScore = HighScore.get(index).score;
+  
+  for(int i = index; i < HighScore.size()-1; i++)
+  {
+    tempName2 = HighScore.get(i+1).name;
+    tempScore2 = HighScore.get(i+1).score;
+    
+    HighScore.get(i+1).score = tempScore;
+    HighScore.get(i+1).name = tempName;
+    
+    tempName = tempName2;
+    tempScore = tempScore2;
+  }
+  
+  HighScore.get(index).name = name;
+  HighScore.get(index).score = score;
+  
+  highScoreFile = createWriter("data/Highscore.csv");
+  
+  for(int i = 0; i < HighScore.size(); i++)
+  {
+    highScoreFile.println(HighScore.get(i).name + " " + HighScore.get(i).score);
+  }
+  highScoreFile.flush();
+  highScoreFile.close();
+  
+  stage = 6;
+}
+
+void deleteAll()
+{
+  i = 0;
+  while(i < Objects.size())
+  {
+    Objects.remove(i);
+    i++;
+  }
+}
+
+void deleteScore()
+{
+  i = 0;
+  while(i < HighScore.size())
+  {
+    HighScore.remove(i);
+    i++;
+  }
+}
+  
+
+void displayScore()
+{
+  fill(204,0,204);
+  stroke(204,0,204);
+  
+  textAlign(CENTER);
+  text("Top 5 highscores",width/2,height/2-10*size);
+  
+  //Display highscore
+  for(int i = 0; i < HighScore.size() ; i++)
+  {
+    text(HighScore.get(i).name + "   " + HighScore.get(i).score, width/2, height/2+((10*size)*(i+1)));
   }
 }
 

@@ -121,7 +121,7 @@ class Player extends GameObject
       invincFrame++;
     }
     
-    gameOver = false;
+    stage = 2;
   }
   
   void shipRender(float x, float y, float scale)
@@ -182,7 +182,7 @@ class Player extends GameObject
   void move()
   {   
     
-    if(start == true && animation == false)
+    if(stage == 2 && animation == false)
     {
       if(input[up] == true)
       {
@@ -242,7 +242,7 @@ class Player extends GameObject
   
   void startAnimation()
   {
-    if(start == true)
+    if(stage == 2)
     {
       if(position.y > height-(height/4) && animation == true)
       {
@@ -282,7 +282,7 @@ class Player extends GameObject
       defaultweapon1.drawObject();
       defaultweapon2.drawObject();
     
-      if(start == true && animation == false)
+      if(stage == 2 && animation == false)
       {
         coolDown1 = defaultweapon1.shoot(coolDown1);
         coolDown2 = defaultweapon2.shoot(coolDown2);
@@ -314,7 +314,7 @@ class Player extends GameObject
       defaultweapon3.drawObject();
       defaultweapon4.drawObject();
       
-      if(start == true && animation == false)
+      if(stage == 2 && animation == false)
       { 
         if(input[shoot] == true)
         {
@@ -402,7 +402,7 @@ class Player extends GameObject
     
     if(lives == 0)
     {
-      gameOver = true;
+      stage = 3;
       Objects.remove(this);
     }
   }

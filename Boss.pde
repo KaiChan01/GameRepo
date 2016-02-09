@@ -244,7 +244,10 @@ class Boss extends GameObject
       transparent -= 2;
       if(transparent <= 0)
       {
+        //Ready to spawn a new one 
         boss = false;
+        bossSpawned = false;
+        
         bossNum += 1;
         Objects.remove(this);
       }

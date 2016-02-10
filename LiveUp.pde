@@ -1,6 +1,7 @@
 class LiveUp extends GameObject implements Collide
 {
   int dirX, dirY;
+  AudioPlayer powerUp;
   
   LiveUp(float X, float Y)
   {
@@ -8,6 +9,7 @@ class LiveUp extends GameObject implements Collide
     
     this.dirX = int(random(0,2));
     this.dirY = int(random(0,2));
+    this.powerUp = minim.loadFile("Powerup.wav");
   }
   
   void drawObject()
@@ -45,6 +47,8 @@ class LiveUp extends GameObject implements Collide
   
   void apply(Player player)
   {
+    powerUp.play();
+    
     if(player.lives < 3)
     {
       player.lives++;

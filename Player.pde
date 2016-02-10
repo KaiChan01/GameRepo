@@ -77,6 +77,7 @@ class Player extends GameObject
       this.invincColour = 150;
     }
     
+    //Player info displayed on the screen
     fill(map(health, 100, 0, 0, 255),map(health, 0, 100, 0, 255), 0);
     stroke(70,100,255);
     //Drawing health
@@ -85,7 +86,7 @@ class Player extends GameObject
     
     //Cannon
     rectMode(CORNER);
-    fill(map(charge, 0, maxCharge, 200, 0), map(charge, 0, maxCharge, 255, 0), 200);
+    fill(map(charge, 0, maxCharge, 200, 100), map(charge, 0, maxCharge, 200, 100), 200);
     rect(width-15*size+(15*size/2), height/2+70*size+(95*size/2), -15*size, map(charge, 0 , maxCharge, 0, -95*size));
     
     //Showing ammo

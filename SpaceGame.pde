@@ -590,7 +590,7 @@ void GameOver()
   }
   
   //If score is greater than any Highscores, over write
-  for(int i = 0; i < HighScore.size() ; i++)
+  for(int i = HighScore.size()-1; i > -1 ; i--)
   {
     if(score > HighScore.get(i).score)
     {
@@ -608,7 +608,10 @@ void GameOver()
     }
     else
     {
-      stage = 6;
+      if(i==0 && inputName == false)
+      {
+        stage = 6;
+      }
     }
   } 
 }
@@ -772,7 +775,7 @@ void displayScore()
     text(HighScore.get(i).name + "  " + HighScore.get(i).score, width/2, height/2+((10*size)*(i+1)));
   }
   
-  //text("Press 'R' to restart OR 'ESC' to quit", width/2, height/2+70*size);
+  text("Press 'R' to restart OR 'ESC' to quit", width/2, height/2+70*size);
   
 }
 

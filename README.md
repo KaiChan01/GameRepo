@@ -1,7 +1,7 @@
 # GameRepo
 For Christmas Assignment
 
-<b>Controls<b>
+<b>Controls</b>
 W,A,S,D - Move<br>
 J - Shoot<br>
 k - Charge cannon<br>
@@ -17,6 +17,7 @@ If the player's score is greater than one of the top 5 highscores which are save
 There are two type of basic enemies in the game and one type of greater enemy.
 
 <b>Enemy type 1:</b> 
+
 1) Cannot shoot bullets but can inflict damage if the player collides with them<br>
 2) Worth 200 points
 

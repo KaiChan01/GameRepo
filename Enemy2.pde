@@ -4,6 +4,7 @@ class Enemy2 extends GameObject implements Collide
   int waitTime;
   int drops;
   int ammo;
+  int maxHealth;
   
   Enemy2(int startX, int StartY)
   {
@@ -11,7 +12,8 @@ class Enemy2 extends GameObject implements Collide
     this.destX = int(random(0,width));
     this.destY = int(random((50*size),100*size));
     this.speed = 1.5;
-    this.health = 150;
+    this.maxHealth = 100+(bossNum*50);
+    this.health = 100+(bossNum*50);
     this.ammo = 3;
     this.waitTime = 40;
     
@@ -49,7 +51,7 @@ class Enemy2 extends GameObject implements Collide
     stroke(0,255,0);
     fill(255);
     rectMode(RADIUS);
-    rect(position.x, position.y-(30*size)/2, map(health, 0, 150, 0, 20*size), 2*size);
+    rect(position.x, position.y-(30*size)/2, map(health, 0, maxHealth, 0, 20*size), 2*size);
   }
   
   void move()

@@ -31,13 +31,13 @@ class Boss extends GameObject
   Boss()
   {
     super(width/2, -100*size);
-    this.health = 1000*bossNum;
+    this.health = 2000*bossNum;
     this.speed = 0.5;
     this.aimSpeed = 4;
     this.idleMode = false;
     this.shootMode = true;
     this.bombMode = false;
-    this.ammo = 500;
+    this.ammo = 200;
     this.rotate = 0;
     this.pattern = int(random(1,6));
     this.bomb = 20*size;
@@ -145,7 +145,7 @@ class Boss extends GameObject
     
     if(ammo < 0)
     {
-      ammo = 500;
+      ammo = 200;
       idleMode = true;
       shootMode = false;
     }

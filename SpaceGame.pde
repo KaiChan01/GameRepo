@@ -26,7 +26,6 @@ ArrayList<Score> HighScore = new ArrayList<Score>();
 boolean startGame;
 
 //Game status
-
 boolean finished;
 boolean animation;
 boolean boss;
@@ -36,14 +35,16 @@ boolean finalScore;
 
 boolean inputName;
 
-/*
-boolean start;
-boolean gameOver;
-boolean nameConfirm;
-boolean saveScore;
-boolean display;
+/* Stage of game
+   0 = reset variables
+   1 = Menu
+   2 = Main game
+   3 = Game over
+   4 = Input name
+   5 = Confirm name
+   6 = Display scores
+   7 =
 */
-
 int stage;
 
 //Check cannon
@@ -53,9 +54,6 @@ boolean cannonFire;
 int newStars;
 int spawn;
 int spawnNum;
-
-//For while loops
-int i;
 
 //Number of bosses defeated
 int bossNum;
@@ -105,7 +103,7 @@ void draw()
   drawStars();
   
   switch (stage)
-  {
+  { 
     //Setup variables
     case 0:
     {
@@ -184,6 +182,7 @@ void draw()
     case 6:
     {
       displayScore();
+      deleteAll();
     }
   }
   
@@ -203,7 +202,6 @@ void startGame()
   boss = false;
   bossSpawned = false;
   finalScore = false;
-  //display = false;
   
   playerPos = new PVector(0,0);
   bossNum = 1;
@@ -364,6 +362,7 @@ void playerInfo()
   text("Health: ", 5*size,height-(30*size));
   text("Lives: ", 5*size,height-(8*size));
   text("Score: " + score, 5*size,(15*size));
+  text("+" + (bossNum-1)*1000, 5*size,(25*size));
   textAlign(RIGHT);
   text("Ammo",width-(40*size),height-(15*size));
   
@@ -516,7 +515,7 @@ void checkLaser()
                 (p.position.x+map(p.charge, 0, p.maxCharge, 0, size))- (e.position.x-(100*size/2))> 0 &&
                  p.position.y > e.position.y)
             {
-              e.health -= map(p.charge, 0, p.maxCharge, 0 ,15);
+              e.health -= map(p.charge, 0, p.maxCharge, 0 ,5);
               e.hit = true;
             }
           }
@@ -603,14 +602,13 @@ void GameOver()
       
       inputName = true;
       
+      fill(255,52,255);
+      stroke(255,52,255);
       text(name,width/2,height/2+30*size);
     }
     else
     {
-      fill(102,255,255);
-      stroke(102,255,255); 
-      textAlign(CENTER);
-      text("Nice try", width/2, height/2-10*size);
+      stage = 6;
     }
   } 
 }
@@ -680,12 +678,12 @@ void keyPressed()
         stage = 3;
       }
     }
-    
-    if(stage == 6 && key == 'r')
-    {
-      deleteScore();
-      stage = 0;
-    }
+  }
+  
+  if(stage == 6 && key == 'r')
+  {
+    deleteScore();
+    stage = 0;
   }
 }
 
@@ -740,21 +738,17 @@ void saveScore()
 
 void deleteAll()
 {
-  i = 0;
-  while(i < Objects.size())
+  for(int i = Objects.size()-1; i > -1; i--)
   {
     Objects.remove(i);
-    i++;
   }
 }
 
 void deleteScore()
 {
-  i = 0;
-  while(i < HighScore.size())
+  for(int i = HighScore.size()-1; i > -1; i--)
   {
     HighScore.remove(i);
-    i++;
   }
 }
   
@@ -764,14 +758,22 @@ void displayScore()
   fill(204,0,204);
   stroke(204,0,204);
   
+  if(inputName == false)
+  {
+    text("Sorry, you lose!", width/2,height/2-50*size);
+  }
+  
   textAlign(CENTER);
   text("Top 5 highscores",width/2,height/2-10*size);
   
   //Display highscore
   for(int i = 0; i < HighScore.size() ; i++)
   {
-    text(HighScore.get(i).name + "   " + HighScore.get(i).score, width/2, height/2+((10*size)*(i+1)));
+    text(HighScore.get(i).name + "  " + HighScore.get(i).score, width/2, height/2+((10*size)*(i+1)));
   }
+  
+  //text("Press 'R' to restart OR 'ESC' to quit", width/2, height/2+70*size);
+  
 }
 
 void keyReleased()

@@ -4,6 +4,7 @@ class Enemy extends GameObject implements Collide
   float startY;
   boolean sway;
   int drops;
+  int maxHealth;
   
   Enemy(float startX, float StartY)
   {
@@ -13,7 +14,8 @@ class Enemy extends GameObject implements Collide
     this.startY=startY;
     this.sway=true;
     this.speed = 1.05;
-    this.health = 200;
+    this.maxHealth = 100+(bossNum*100);
+    this.health = 100+(bossNum*100);
   }
   
   void drawObject()
@@ -38,7 +40,7 @@ class Enemy extends GameObject implements Collide
     stroke(0,255,0);
     fill(255);
     rectMode(RADIUS);
-    rect(position.x, position.y-(30*size)/2, map(health, 0, 200, 0, 20*size), 2*size);
+    rect(position.x, position.y-(30*size)/2, map(health, 0, maxHealth, 0, 20*size), 2*size);
   }
   
   void move()

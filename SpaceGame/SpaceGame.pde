@@ -10,6 +10,7 @@ PrintWriter highScoreFile;
 import ddf.minim.*;
 Minim minim;
 
+//Some main sounds
 AudioPlayer Menu;
 AudioPlayer BGM;
 AudioPlayer select;
@@ -19,11 +20,10 @@ AudioPlayer laser;
 AudioPlayer Charge;
 AudioPlayer release;
 
+//Array list for objects and highscore
 ArrayList<Star> stars = new ArrayList<Star>();
 ArrayList<GameObject> Objects = new ArrayList<GameObject>();
 ArrayList<Score> HighScore = new ArrayList<Score>();
-
-boolean startGame;
 
 //Game status
 boolean finished;
@@ -87,8 +87,6 @@ void setup()
   
   //size is equal to 5
   size = (width-height) / 168;
-  startGame = true;
-  
   spaceFont = createFont("airstrike.ttf", width/(10*size));
   
   minim = new Minim(this);
@@ -130,7 +128,7 @@ void draw()
         finished = true;
       }
       
-      if(score > 10000*bossNum);
+      if(score > 10000*bossNum)
       {
         boss = true;
       }
@@ -173,12 +171,14 @@ void draw()
         break;
     }
     
+    //Saving name and score to csv
     case 5:
     {
       saveScore();
       break;
     }
     
+    //Display score and delete any remaining object, not including stars
     case 6:
     {
       displayScore();
@@ -193,6 +193,7 @@ void draw()
   }
 }
 
+//Set up Variables for the game, can be called again to reset the game
 void startGame()
 { 
   animation = false;
@@ -206,14 +207,16 @@ void startGame()
   playerPos = new PVector(0,0);
   bossNum = 1;
   
+  //Player name is blank
   name = "";
   
+  //To turn music off
   finished = false;
   
   //Player start with 0
   score = 0;
   
-  //Making initial Stars
+  //Making initial Stars for the back ground
   for(int i = 0; i < 100; i++)
   {
     Star star = new Star((random(0,width)), (random(0,height)));
@@ -227,10 +230,13 @@ void startGame()
   //Read highscore once
   ReadHighScore();
   
+  
+  //Rewind music for begining game
   Menu.rewind();
   BGM.rewind();
 }
 
+//Draws new stars and animate the existing ones
 void drawStars()
 {
   for(int i = 0; i < stars.size(); i++)
@@ -251,6 +257,7 @@ void drawStars()
   }
 }
 
+//Start menu screen
 void menu()
 {
   Menu.play();
@@ -287,8 +294,10 @@ void menu()
   text("Start", width/2, 9*(height/10));
 }
 
+//Spawning enemies
 void spawn()
 {
+  //After the start animation is finished
   if(animation == false)
   {
     //Enemies spawn
@@ -299,7 +308,8 @@ void spawn()
       spawnOne = true;
       spawnNum = 5;
     }
-   
+    
+    //Spawn 5 more after the first one is spawned
     if(spawnOne == true)
     {
       if(frameCount%60 == 0)
@@ -324,6 +334,7 @@ void spawn()
   }
 }
 
+//Spawning boss
 void boss()
 {
   GameObject Boss = new Boss();
@@ -353,6 +364,7 @@ void objectMethods()
   }
 }
 
+//Player information displayed on screen
 void playerInfo()
 {
   textAlign(LEFT);
@@ -418,6 +430,7 @@ void checkBullet()
   }
 }
 
+//Check if player collides with enemies
 void playerCollision()
 {
   for(int i = 0; i < Objects.size(); i++)
@@ -452,7 +465,7 @@ void playerCollision()
           }
         }
         
-        //Checking if explosion of bomb hits the player
+        //Checking if explosion of bomb from boss hits the player
         if(object instanceof Boss)
         {
           Player p = (Player) player;
@@ -472,7 +485,7 @@ void playerCollision()
   }
 }
 
-//check if laser hits
+//check if laser hits enemies
 void checkLaser()
 {
   if(cannonFire == true)
@@ -525,6 +538,7 @@ void checkLaser()
   }   
 }
 
+//If help is toggles show help menu
 void helpMenu()
 {
   stroke(0,51,102);
@@ -580,6 +594,7 @@ void ReadHighScore()
   }
 }
 
+//When player is dead
 void GameOver()
 {
   //Final score = score + number of boss defeated, since bossNum = 1 at the beginning I have to minus one at the end
@@ -640,6 +655,7 @@ void keyPressed()
     helpTrigger.play();
   }
   
+  //After player is dead and name input is required
   if(inputName == true)
   {
     if(name.length() <= 3 && stage < 4)
@@ -660,6 +676,7 @@ void keyPressed()
       }
     }
     
+    //Confirm name
     if(key == ENTER && stage == 3)
     {
       if(name.length() < 1)
@@ -709,14 +726,17 @@ void saveScore()
     }
   }
   
+  //Save the current highscore
   tempName = HighScore.get(index).name;
   tempScore = HighScore.get(index).score;
   
   for(int i = index; i < HighScore.size()-1; i++)
   {
+    //Save the next lowest score
     tempName2 = HighScore.get(i+1).name;
     tempScore2 = HighScore.get(i+1).score;
     
+    //Replace current score with new highscore and push the current score down 
     HighScore.get(i+1).score = tempScore;
     HighScore.get(i+1).name = tempName;
     
@@ -727,6 +747,7 @@ void saveScore()
   HighScore.get(index).name = name;
   HighScore.get(index).score = score;
   
+  //Write to file, save score
   highScoreFile = createWriter("data/Highscore.csv");
   
   for(int i = 0; i < HighScore.size(); i++)
@@ -739,6 +760,7 @@ void saveScore()
   stage = 6;
 }
 
+//Delete all bullets, enemies etc
 void deleteAll()
 {
   for(int i = Objects.size()-1; i > -1; i--)
@@ -747,6 +769,7 @@ void deleteAll()
   }
 }
 
+//clear score arraylist to read again
 void deleteScore()
 {
   for(int i = HighScore.size()-1; i > -1; i--)
@@ -755,12 +778,13 @@ void deleteScore()
   }
 }
   
-
+//Display the current highscore
 void displayScore()
 {
   fill(204,0,204);
   stroke(204,0,204);
   
+  //If any highscore is not beaten
   if(inputName == false)
   {
     text("Sorry, you lose!", width/2,height/2-50*size);

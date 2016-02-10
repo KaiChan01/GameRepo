@@ -28,7 +28,7 @@ There are two type of basic enemies in the game and one type of greater enemy.
 3) Worth 500 points
 
 
-<b>Greater enemy:<\b><br>
+<b>Greater enemy:</b><br>
 1) Can shoot bullets in 6 different spiraling pattern<br>
 2) Can cause an area to explode<br>
 3) Worth 1000 points<br>
@@ -38,6 +38,6 @@ For this assignment I drew all the objects within processing, I have include Abs
 I used plymorphism and interfaces to check collision between objects
 
 
-<b>Music:<b><br>
+<b>Music:</b><br>
 Menu Music: Dazzled by Wolf Asylum<br>
 Background Music: Complex by Wolf Asylum

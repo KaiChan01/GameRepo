@@ -5,13 +5,14 @@ class Boss extends GameObject
   int status;
   PVector eyePos;
   
+  //Status/modes for boss
   boolean idleMode;
   boolean shootMode;
   boolean alive;
-  
   boolean bombMode;
   boolean aim;
   
+  //Check if boss is hit
   boolean hit;
   
   PVector lockOn;
@@ -20,7 +21,9 @@ class Boss extends GameObject
   int aimSpeed;
   int ammo;
   int explosion;
+  
   int charge;
+  //Make boss turn transparent when health < 0
   int transparent;
   
   float bomb;
@@ -60,6 +63,7 @@ class Boss extends GameObject
   
   void drawObject()
   {
+    //If hit turn eye red, else white
     if(hit == false)
     {
       colour = color(255,transparent);
@@ -69,6 +73,7 @@ class Boss extends GameObject
       colour = color(255,150,150,transparent);
     }
     
+    //position of the iris and pupil
     eyePos = new PVector(map(playerPos.x, 0, width, -30*size, +30*size), 65*size);
     eyeHitbox = new PVector(position.x,position.y+35*size);
     
@@ -81,6 +86,7 @@ class Boss extends GameObject
       eyePos.y = map(playerPos.x, 0, width/2, 50*size, 65*size);
     }
     
+    //For setting new status/mode
     status = int(random(0,30));
     
     if(idleMode == true)
@@ -101,6 +107,7 @@ class Boss extends GameObject
       }
     }
     
+    //Drawing the actual eye/boss
     pushMatrix();
     translate(position.x,position.y);
     
@@ -126,19 +133,23 @@ class Boss extends GameObject
     ellipse(eyePos.x, eyePos.y, 20*size,20*size);
     popMatrix();
     
+    //Shoot if alive and in shootmode
     if(shootMode == true && idleMode == false && alive == true)
     {
       shoot();
     }
     
+    //Bomb if alive and in bomb mode
     if(idleMode == false && bombMode == true && alive == true)
     {
       bomb();
     }
     
+    //Reset hit to make eye white again
     hit =false;
   }
   
+  //Shoot function
   void shoot()
   {
     EnemyBullet b = new EnemyBullet(int(position.x+eyePos.x), int(position.y+eyePos.y), rotate -= pattern);
@@ -154,16 +165,19 @@ class Boss extends GameObject
     }
   }
   
+  //Aim and bomb
   void bomb()
   {
     if(aim == true)
     {
+      //Drawing the aiming laser
       stroke(255,0,0,transparent);
       fill(255,0,0, 200);
       
       line(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), int(position.y+eyePos.y), lockOn.x, lockOn.y);
       ellipse(lockOn.x, lockOn.y, bomb,bomb);
       
+      //Track player and follow
       if(lockOn.x >= playerPos.x)
       {
         lockOn.add(MoveLEFT);
@@ -189,6 +203,7 @@ class Boss extends GameObject
     }
     else
     {
+      //Area is targeted
       stroke(255,0,0,transparent);
       fill(255,0,0, 200);
       line(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), eyePos.y, lockOn.x, lockOn.y);
@@ -226,6 +241,7 @@ class Boss extends GameObject
     }
   }
   
+  //moves into position after spawning
   void move()
   {
     if(position.y < 0)
@@ -261,6 +277,7 @@ class Boss extends GameObject
     {
       if(transparent % 2 == 0)
       {
+        //Draw explosion
         explosion();
       }
       

@@ -28,6 +28,8 @@ class Boss extends GameObject
   int rotate;
   int pattern;
   
+  AudioPlayer explosions;
+  
   Boss()
   {
     super(width/2, -100*size);
@@ -43,8 +45,9 @@ class Boss extends GameObject
     this.bomb = 20*size;
     this.charge = 0;
     this.hit = false;
-    this.transparent = 255;
+    this.transparent = 254;
     this.alive = true;
+    this.explosions = minim.loadFile("explosion.wav");
     
     this.explosion = 0;
     
@@ -208,7 +211,7 @@ class Boss extends GameObject
           if(explosion % 10 == 0)
           {
             fill(255,99,71,transparent);
-            ellipse(lockOn.x+random(-50*size, 50*size),lockOn.y+random(-50*size, 50*size), explosion/10,explosion/10);
+            ellipse(lockOn.x+random(-50*size, 50*size),lockOn.y+random(-50*size, 50*size), 20*size,20*size);
           }
         
           if(explosion == 100*size)
@@ -236,10 +239,31 @@ class Boss extends GameObject
     }
   }
   
+  void explosion()
+  {
+    explosions.play();
+    fill(255,69,0);
+    pushMatrix();
+    translate(int(random(0,width)), int(random(0,50*size)));
+    ellipse(0,0,50*size,50*size);
+    for(int i = int(random(5,10)); i > 0; i--)
+    {
+      fill(255,215,0);
+      stroke(255,69,0);
+      ellipse(int(random(-20*size,+20*size)), int(random(-20*size,+20*size)),30*size,30*size);
+    }
+    popMatrix();
+  }
+  
   void die()
   {
     if(health <= 0)
     {
+      if(transparent % 2 == 0)
+      {
+        explosion();
+      }
+      
       alive = false;
       transparent -= 2;
       if(transparent <= 0)

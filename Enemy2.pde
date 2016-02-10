@@ -5,6 +5,7 @@ class Enemy2 extends GameObject implements Collide
   int drops;
   int ammo;
   int maxHealth;
+  AudioPlayer explosion;
   
   Enemy2(int startX, int StartY)
   {
@@ -12,10 +13,13 @@ class Enemy2 extends GameObject implements Collide
     this.destX = int(random(0,width));
     this.destY = int(random((50*size),100*size));
     this.speed = 1.5;
+    
+    //Enemy get tougher after every boss
     this.maxHealth = 100+(bossNum*50);
     this.health = 100+(bossNum*50);
     this.ammo = 3;
     this.waitTime = 40;
+    this.explosion = minim.loadFile("explosion.wav");
     
     this.MoveUP.mult(speed);
     this.MoveDOWN.mult(speed);
@@ -109,10 +113,28 @@ class Enemy2 extends GameObject implements Collide
     }
   }
   
+  void explosion()
+  {
+    explosion.play();
+    fill(255,69,0);
+    pushMatrix();
+    translate(position.x, position.y);
+    ellipse(0,0,30*size,30*size);
+    for(int i = int(random(5,10)); i > 0; i--)
+    {
+      fill(255,215,0);
+      stroke(255,69,0);
+      ellipse(int(random(-20*size,+20*size)), int(random(-20*size,+20*size)),10*size,10*size);
+    }
+    popMatrix();
+  }
+  
   void die()
   {
     if(health <= 0)
     {
+      explosion();
+      
       drops = int(random(0,30));
       if(drops > 28)
       {

@@ -18,7 +18,7 @@ class Bullet extends GameObject implements BulletHit, BulletHit2, BulletHit3
     
     if(weaponType == 1)
     {
-      this.damage = 3;
+      this.damage = 1+bossNum;
     }
   }
   

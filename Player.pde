@@ -23,6 +23,8 @@ class Player extends GameObject
   int invincColour;
   int coolDown1;
   int coolDown2;
+  
+  AudioPlayer explosion;
 
   Player(float newX, float newY, char upKey, char downKey, char leftKey, char rightKey, char shootKey, char cannonKey)
   {
@@ -56,6 +58,8 @@ class Player extends GameObject
     this.coolDown1 = shootReady;
     this.coolDown2 = shootReady;
     this.invincFrame = 50;
+    
+    this.explosion = minim.loadFile("explosion.wav");
     
     MoveDOWN.mult(speed);
     MoveLEFT.mult(speed);
@@ -391,6 +395,22 @@ class Player extends GameObject
         }
       }
     }
+    
+  void explosion()
+  {
+    explosion.play();
+    fill(255,69,0);
+    pushMatrix();
+    translate(position.x, position.y);
+    ellipse(0,0,30*size,30*size);
+    for(int i = int(random(5,10)); i > 0; i--)
+    {
+      fill(255,215,0);
+      stroke(255,69,0);
+      ellipse(int(random(-20*size,+20*size)), int(random(-20*size,+20*size)),10*size,10*size);
+    }
+    popMatrix();
+  }
   
   void die()
   { 
@@ -402,6 +422,7 @@ class Player extends GameObject
     
     if(lives == 0)
     {
+      explosion();
       stage = 3;
       Objects.remove(this);
     }

@@ -1,6 +1,7 @@
 class GunPowerUp extends GameObject implements Collide
 {
   int dirX, dirY;
+  AudioPlayer equip;
   
   GunPowerUp(float X, float Y)
   {
@@ -8,6 +9,7 @@ class GunPowerUp extends GameObject implements Collide
     
     this.dirX = int(random(0,2));
     this.dirY = int(random(0,2));
+    this.equip = minim.loadFile("equip.wav");
   }
   
   void drawObject()
@@ -45,6 +47,7 @@ class GunPowerUp extends GameObject implements Collide
   
   void apply(Player player)
   {
+    equip.play();
     if(player.ammo < 5000)
     {
       player.ammo += 200;

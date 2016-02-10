@@ -5,6 +5,7 @@ class Enemy extends GameObject implements Collide
   boolean sway;
   int drops;
   int maxHealth;
+  AudioPlayer explosion;
   
   Enemy(float startX, float StartY)
   {
@@ -14,8 +15,11 @@ class Enemy extends GameObject implements Collide
     this.startY=startY;
     this.sway=true;
     this.speed = 1.05;
+    
+    //Enemy get tougher after every boss
     this.maxHealth = 100+(bossNum*100);
     this.health = 100+(bossNum*100);
+    this.explosion = minim.loadFile("explosion.wav");
   }
   
   void drawObject()
@@ -81,10 +85,30 @@ class Enemy extends GameObject implements Collide
     }
   }
   
+  void explosion()
+  {
+    explosion.play();
+    fill(255,69,0);
+    
+    pushMatrix();
+    translate(position.x, position.y);
+    ellipse(0,0,30*size,30*size);
+    
+    for(int i = int(random(5,10)); i > 0; i--)
+    {
+      fill(255,215,0);
+      stroke(255,69,0);
+      ellipse(int(random(-20*size,+20*size)), int(random(-20*size,+20*size)),10*size,10*size);
+    }
+    popMatrix();
+  }
+  
   void die()
   {
     if(health <= 0)
     {
+      explosion();
+      
       drops = int(random(0,30));
       if(drops > 28)
       {

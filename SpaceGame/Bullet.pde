@@ -4,10 +4,12 @@ class Bullet extends GameObject implements BulletHit, BulletHit2, BulletHit3
   int weaponType;
   int damage;
   
+  //Take in the position of the gun, and the angle it's facing
   Bullet(int weaponType, float x, float y, float posX, float posY, float angle)
   {
     super(x+posX,y+posY);
     
+    //Determine angle of the bullet
     this.angle = angle;
     this.speed = 4*size;
     
@@ -22,6 +24,7 @@ class Bullet extends GameObject implements BulletHit, BulletHit2, BulletHit3
     }
   }
   
+  //Draw the bullet
   void drawObject()
   {
     fill(0,255,0);
@@ -35,6 +38,7 @@ class Bullet extends GameObject implements BulletHit, BulletHit2, BulletHit3
     popMatrix();
   }
   
+  //Apply dmg to enemy
   void damage(Enemy enemy)
   {
     enemy.health -= damage;
@@ -53,6 +57,7 @@ class Bullet extends GameObject implements BulletHit, BulletHit2, BulletHit3
     Objects.remove(this);
   } 
   
+  //Moves up the screen
   void move()
   {
     MoveUP.x = sin(angle);
@@ -62,6 +67,7 @@ class Bullet extends GameObject implements BulletHit, BulletHit2, BulletHit3
     position.add(MoveUP);
   }
   
+  //Remove if out of screen
   void die()
   {
     if(this.position.y < 0)

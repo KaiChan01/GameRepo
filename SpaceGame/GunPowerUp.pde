@@ -7,6 +7,7 @@ class GunPowerUp extends GameObject implements Collide
   {
     super(X,Y);
     
+    //Flies in a random direction
     this.dirX = int(random(0,2));
     this.dirY = int(random(0,2));
     this.equip = minim.loadFile("equip.wav");
@@ -20,6 +21,7 @@ class GunPowerUp extends GameObject implements Collide
     fill(255,0,0);
     ellipse(0,0,10*size,10*size);
     fill(51,255,51);
+    //M for machine gun
     text("M",0,0);
     popMatrix();
   }
@@ -45,6 +47,7 @@ class GunPowerUp extends GameObject implements Collide
     }
   }
   
+  //If player collides with the power up
   void apply(Player player)
   {
     equip.play();
@@ -52,7 +55,7 @@ class GunPowerUp extends GameObject implements Collide
     {
       player.ammo += 200;
       
-      //Don't be OP
+      //Don't be OP, cant have more than 5000 bullets
       if(player.ammo > 5000)
       {
         player.ammo = 5000;
@@ -61,6 +64,7 @@ class GunPowerUp extends GameObject implements Collide
     Objects.remove(this);
   }
   
+  //Delete object if out of screen
   void die()
   {
     if(position.x > width+50*size || position.x < 0-50*size || position.y > height+50*size || position.y < 0-50*size)

@@ -7,6 +7,7 @@ class LiveUp extends GameObject implements Collide
   {
     super(X,Y);
     
+    //Fly in random direction
     this.dirX = int(random(0,2));
     this.dirY = int(random(0,2));
     this.powerUp = minim.loadFile("Powerup.wav");
@@ -45,10 +46,12 @@ class LiveUp extends GameObject implements Collide
     }
   }
   
+  //When player collects/collide
   void apply(Player player)
   {
     powerUp.play();
     
+    //Player can only have a max lives of 3
     if(player.lives < 3)
     {
       player.lives++;
@@ -56,10 +59,12 @@ class LiveUp extends GameObject implements Collide
     }
     else if(player.health < 100)
     {
+      //Replenishes health if Lives is full but dmg is taken
       player.health = 100;
       Objects.remove(this);
     }
     
+    //Display MaxLives if player has 3 lives and max health
     if(player.health == 100 && player.lives == 3)
     {
       fill(0,204,204);
@@ -68,6 +73,7 @@ class LiveUp extends GameObject implements Collide
     
   }
   
+  //remove object
   void die()
   {
     if(position.x > width+50*size || position.x < 0-50*size || position.y > height+50*size || position.y < 0-50*size)

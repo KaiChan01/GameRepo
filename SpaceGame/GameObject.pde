@@ -6,7 +6,6 @@ abstract class GameObject
   float speed;
   
   PVector position;
-  //Might only need down?
   PVector MoveUP;
   PVector MoveDOWN;
   PVector MoveLEFT;

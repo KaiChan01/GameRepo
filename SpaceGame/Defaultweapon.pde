@@ -74,13 +74,16 @@ class Defaultweapon extends GameObject
       
       if(weaponType == 0)
       {
+        //Play sound
         gun.rewind();
         gun.play();
+        //Cooldown is set to zero and must wait to fire again
         cd = 0;
       }
       
       if(weaponType == 1)
       {
+        //Gun is ready to shoot instantly, no Cooldown, a machine gun
         cd = 11;
       }
     }

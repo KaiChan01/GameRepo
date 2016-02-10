@@ -19,6 +19,7 @@ class EnemyBullet extends GameObject implements Collide
     popMatrix();
   }
   
+  //Moves in relation to the angle of the bullet
   void move()
   {
     MoveDOWN.x = -sin(angle);
@@ -29,6 +30,7 @@ class EnemyBullet extends GameObject implements Collide
     position.add(MoveDOWN);
   }
   
+  //If bullet hits player
   void apply(Player player)
   {
     if(player.invincFrame == 50)
@@ -41,6 +43,7 @@ class EnemyBullet extends GameObject implements Collide
   
   void die()
   {
+    //Remove from array list if bullet flys out of screen
     if(position.x > width+20*size || position.y < -20*size || position.y > height+20*size)
     {
       Objects.remove(this);

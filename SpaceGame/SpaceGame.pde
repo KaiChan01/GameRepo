@@ -472,8 +472,6 @@ void playerCollision()
           Boss e = (Boss) object;
           if(e.bombMode == true)
           {
-            println(e.lockOn.dist(p.position));
-            println((7*size)+e.explosion);
             if(e.lockOn.dist(p.position) < (7*size)+e.explosion)
             {
               p.health--;
@@ -702,7 +700,9 @@ void keyPressed()
   
   if(stage == 6 && key == 'r')
   {
+    BGM.pause();
     deleteScore();
+    deleteStars();
     stage = 0;
   }
 }
@@ -769,6 +769,14 @@ void deleteAll()
   }
 }
 
+void deleteStars()
+{
+  for(int i = stars.size()-1; i > -1; i--)
+  {
+    stars.remove(i);
+  }
+}
+
 //clear score arraylist to read again
 void deleteScore()
 {
@@ -796,10 +804,10 @@ void displayScore()
   //Display highscore
   for(int i = 0; i < HighScore.size() ; i++)
   {
-    text(HighScore.get(i).name + "  " + HighScore.get(i).score, width/2, height/2+((10*size)*(i+1)));
+    text(i+1 + ")  " + HighScore.get(i).name + "  " + HighScore.get(i).score, width/2, height/2+((15*size)*(i+1)));
   }
   
-  text("Press 'R' to restart OR 'ESC' to quit", width/2, height/2+70*size);
+  text("Press 'R' to restart OR 'ESC' to quit", width/2, height/2+90*size);
   
 }
 

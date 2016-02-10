@@ -47,9 +47,11 @@ class Enemy extends GameObject implements Collide
     rect(position.x, position.y-(30*size)/2, map(health, 0, maxHealth, 0, 20*size), 2*size);
   }
   
+  //Moves in a swaying motion
   void move()
   {
     position.add(MoveDOWN);
+    //Move left
     if(sway == true)
     {
       MoveLEFT.mult(speed);
@@ -57,12 +59,14 @@ class Enemy extends GameObject implements Collide
       
      if(position.x-startX<-100)
       {
+        //Speeds up a little as it sways
         speed = 1.05;
         sway = false;
         MoveLEFT = new PVector(-1, 0);
       }
     }
-
+    
+    //Move right
     if(sway == false)
     {
       MoveRIGHT.mult(speed);
@@ -85,6 +89,7 @@ class Enemy extends GameObject implements Collide
     }
   }
   
+  //Drawing a small explosion and playing sound
   void explosion()
   {
     explosion.play();
@@ -109,6 +114,7 @@ class Enemy extends GameObject implements Collide
     {
       explosion();
       
+      //Possibility of droping an powerup if distoryed by player
       drops = int(random(0,30));
       if(drops > 28)
       {

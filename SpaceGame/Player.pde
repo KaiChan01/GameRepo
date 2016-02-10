@@ -30,7 +30,6 @@ class Player extends GameObject
   {
     super(newX, newY);
     
-    //Read in again at some point
     this.startY = newY;
     this.weaponType = 0;
     this.up = upKey;
@@ -68,6 +67,7 @@ class Player extends GameObject
   
   void drawObject()
   {
+    //If invincibility frame is up, make player transparent
     if(invincFrame == 50)
     {
       this.invincColour = 255;
@@ -102,9 +102,8 @@ class Player extends GameObject
       text(ammo, width-(40*size),height-(5*size));
     }
     
-    //Drawing the Main ship
+    //Drawing the Main ship, player ship
     rectMode(CORNER);
-    //player ship
     pushMatrix();
     shipRender(position.x, position.y, 1);
     popMatrix();
@@ -115,7 +114,6 @@ class Player extends GameObject
     //drawing ships that represent lives
     for(int i = 0; i < lives; i++)
     {
-      
       pushMatrix();
       shipRender(55*size+(i*(15*size)),height-(10*size), 0.3);
       popMatrix();
@@ -126,9 +124,11 @@ class Player extends GameObject
       invincFrame++;
     }
     
+    //Makes sure stage is still in gameplay
     stage = 2;
   }
   
+  //Method to draw the ship
   void shipRender(float x, float y, float scale)
   {
     translate(x, y);
@@ -143,6 +143,7 @@ class Player extends GameObject
     fill(150,0,0, invincColour);
     stroke(150,0,0, invincColour);
     beginShape();
+    
     //Right side of ship
     vertex(0,-4*size);
     vertex(2*size,-3*size);
@@ -180,13 +181,15 @@ class Player extends GameObject
     fill(100,100,255, invincColour);
     ellipse(0,0,3*size,10*size);
     
+    //Shows where the hit box of the ship is, most bullethell games have a small hitbox to make dodging bullets easier
     fill(255,150);
     ellipse(0,0,7*size,7*size);
   }
   
+  //Controls for movement
   void move()
   {   
-    
+    //Make sure player can not move until the start animation is finished
     if(stage == 2 && animation == false)
     {
       if(input[up] == true)
@@ -232,6 +235,7 @@ class Player extends GameObject
     }
   }
   
+  //A small animation detail for when the ship is moving up
   void exhaustAnimation()
   {
     pushMatrix();
@@ -245,6 +249,7 @@ class Player extends GameObject
     popMatrix();
   }
   
+  //Begining animation to move ship into position
   void startAnimation()
   {
     if(stage == 2)
@@ -263,11 +268,15 @@ class Player extends GameObject
     }
   }
   
+  
+  //control for shoot and weapon creation
   void guns()
   {
     //If ammo = 0, use defualt weapon
     if(ammo <= 0)
     {
+      //if we go from advance weapon to basic weapon again we need to stop the sound of the machine/laser gun
+      laser.pause();
       weaponType = 0;
     }
     
@@ -277,13 +286,14 @@ class Player extends GameObject
       weaponType = 1;
     }
     
-    
+    //If the weapon is the basic/default type
     if(weaponType == 0)
     {
       //Draw 2 guns
       Defaultweapon defaultweapon1 = new Defaultweapon(weaponType, position.x, position.y, shoot, 15*size, 8*size, 0);
       Defaultweapon defaultweapon2 = new Defaultweapon(weaponType, position.x, position.y, shoot, -15*size, 8*size, 0);
     
+      //Draw the guns everytime
       defaultweapon1.drawObject();
       defaultweapon2.drawObject();
     
@@ -293,6 +303,7 @@ class Player extends GameObject
         coolDown2 = defaultweapon2.shoot(coolDown2);
       }
       
+      //CoolDown is here to leave a gap between every shot
       if(coolDown1 < shootReady)
       {
         coolDown1++;
@@ -309,10 +320,11 @@ class Player extends GameObject
       Defaultweapon defaultweapon1 = new Defaultweapon(weaponType, position.x, position.y, shoot, 14*size, 9*size, 0);
       Defaultweapon defaultweapon2 = new Defaultweapon(weaponType, position.x, position.y, shoot, -14*size, 9*size, 0);
       
-      //Draw 2 angled guns
+      //Draw 2 angled guns, total of 4 guns
       Defaultweapon defaultweapon3 = new Defaultweapon(weaponType, position.x, position.y, shoot, 20*size, size, 0.2f);
       Defaultweapon defaultweapon4 = new Defaultweapon(weaponType, position.x, position.y, shoot, -20*size, size, -0.2f);
       
+      //Draw the guns everytime
       defaultweapon1.drawObject();
       defaultweapon2.drawObject();
     
@@ -325,6 +337,7 @@ class Player extends GameObject
         {
           if(sound == false)
           {
+            //Is a machine gun that looks like laser beams so sound file is called laser
             laser.play();
             sound = true;
           }
@@ -357,12 +370,15 @@ class Player extends GameObject
       if(input[cannonKey] == true && animation == false)
       {
         cannonFire = false;
+        
+        //Charge the weapon if button is pressed
         if(charge < maxCharge)
         {
           Charge.play( int(map(charge, 0 , maxCharge, 0 , Charge.length() )));
           charge++;
         }
         
+        //Draw the charging circle
         stroke(0,102,204);
         fill(0,255,255);
         ellipse(position.x, position.y-(20*size), map(charge, 0, maxCharge, 0, 50), map(charge, 0, maxCharge, 0, 50));
@@ -372,15 +388,18 @@ class Player extends GameObject
         }
       }
       
+      //Firing Cannon!
       if(charge > 0 && input[cannonKey] == false)
       {
         //Sounds
         Charge.pause();
         release.play( int(map(charge, maxCharge , 0, 0 , release.length() )));
         
-        
         cannonFire = true;
+        //use the charge go down
         charge -= 2;
+        
+        //Draw beam and make circle smaller
         stroke(0,102,204);
         fill(0,255,255);
         ellipse(position.x, position.y-(20*size), map(charge, 0, maxCharge, 0, 50), map(charge, 0, maxCharge, 0, 50));
@@ -390,6 +409,7 @@ class Player extends GameObject
         rectMode(CORNERS);
         rect(position.x-map(charge, 0, maxCharge, 0, 2*size), position.y-(20*size), position.x+map(charge, 0, maxCharge, 0, 2*size), -height);
         
+        //CannonFire boolean is used to check collision in the main file
         if(charge <= 0)
         {
           cannonFire = false;
@@ -397,6 +417,7 @@ class Player extends GameObject
       }
     }
     
+  //Explosion when player dies
   void explosion()
   {
     explosion.play();

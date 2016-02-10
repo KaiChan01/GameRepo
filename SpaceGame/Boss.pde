@@ -50,7 +50,7 @@ class Boss extends GameObject
     this.hit = false;
     this.transparent = 254;
     this.alive = true;
-    this.explosions = minim.loadFile("explosion.wav");
+    this.explosions = minim.loadFile("BossExplosion.wav");
     
     this.explosion = 0;
     
@@ -257,7 +257,6 @@ class Boss extends GameObject
   
   void explosion()
   {
-    explosions.play();
     fill(255,69,0);
     pushMatrix();
     translate(int(random(0,width)), int(random(0,50*size)));
@@ -275,6 +274,8 @@ class Boss extends GameObject
   {
     if(health <= 0)
     {
+      //Play explosion sound
+      explosions.play();
       if(transparent % 2 == 0)
       {
         //Draw explosion

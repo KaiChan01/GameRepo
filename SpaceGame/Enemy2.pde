@@ -93,6 +93,7 @@ class Enemy2 extends GameObject implements Collide
       }
     }
     
+    //Stops shooting for abit after ammo is depleted
     if(ammo == 0)
     {
       waitTime --;
@@ -104,6 +105,7 @@ class Enemy2 extends GameObject implements Collide
     }
   }
   
+  //if collides with player
   void apply(Player player)
   {
     if(player.invincFrame == 25)
@@ -133,8 +135,10 @@ class Enemy2 extends GameObject implements Collide
   {
     if(health <= 0)
     {
+      //Draw and play explosion
       explosion();
       
+      //Possible drops
       drops = int(random(0,30));
       if(drops > 28)
       {

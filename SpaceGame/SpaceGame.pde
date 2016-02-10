@@ -130,7 +130,7 @@ void draw()
         finished = true;
       }
       
-      if(score > 10000*bossNum)
+      if(score > 10000*bossNum);
       {
         boss = true;
       }

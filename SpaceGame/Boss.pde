@@ -161,7 +161,7 @@ class Boss extends GameObject
       stroke(255,0,0,transparent);
       fill(255,0,0, 200);
       
-      line(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), eyePos.y, lockOn.x, lockOn.y);
+      line(map(playerPos.x, 0, width, (width/2)-30*size, (width/2)+30*size), int(position.y+eyePos.y), lockOn.x, lockOn.y);
       ellipse(lockOn.x, lockOn.y, bomb,bomb);
       
       if(lockOn.x >= playerPos.x)
